@@ -60,4 +60,4 @@ AWS CloudFormation을 사용하여 이 실습에 필요한 리소스를 프로�
 
 <hr>
 
-## [[이전]](./1-Deploy-the-Workload.md) | [[다음]](./2-Add-and-Assess-Application.md)
+## [[이전]](./README.md) | [[다음]](./2-Add-and-Assess-Application.md)

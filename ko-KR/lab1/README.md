@@ -15,8 +15,7 @@ Resilience Hub에서 제공하는 권장 사항을 사용하여 워크로드를 
 
 -   [2. AWS Resilience Hub를 사용하여 애플리케이션 추가 및 평가](./2-Add-and-Assess-Application.md)
 
--   [[3. 복원력 결과 및 권장
-    사항]{.underline}](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/3-resiliency-recommendations)
+-   [3. 복원력 발견 사항 및 권장 사항](./3-Resilience-Findings-and-Recommendations.md)
 
 -   [[4. 운영 권장
     사항]{.underline}](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/4-operational-recommendations)
