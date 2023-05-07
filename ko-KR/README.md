@@ -30,7 +30,7 @@ AWS Resilience Hub는 AWS 애플리케이션의 복원력을 정의, 검증 및 
 
 ## [AWS Resilience Hub 워크샵](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US#aws-resilience-hub-workshop)
 
-이 워크숍의 목표는 AWS Resilience Hub의 다양한 기능을 살펴보는 것입니다.
+이 워크숍의 목표는 <u>***AWS Well-Architected Framework***</u>의 안정성 Pillar와 관련되어 있는 AWS Resilience Hub의 다양한 기능을 살펴보는 것입니다.
 워크숍이 끝나면 다양한 서비스 구성 요소와 서비스를 사용하여 워크로드
 복원력을 평가하는 방법을 이해할 수 있습니다.
 
