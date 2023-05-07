@@ -10,24 +10,19 @@ Resilience Hub에서 제공하는 권장 사항을 사용하여 워크로드를 
 
 ## [Lab 수행 단계](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect#lab-steps)
 
--   [1. 워크로드
-    배포](./1-Deploy-the-Workload.md)
+-   [1. 워크로드 배포](./1-Deploy-the-Workload.md)
 
 -   [2. AWS Resilience Hub를 사용하여 애플리케이션 추가 및 평가](./2-Add-and-Assess-Application.md)
 
--   [3. 복원력 발견 사항 및 권장 사항](./3-Resilience-Findings-and-Recommendations.md)
+-   [3. 복원력 발견 항목 및 권장 사항](./3-Resilience-Findings-and-Recommendations.md)
 
--   [[4. 운영 권장
-    사항]{.underline}](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/4-operational-recommendations)
+-   [4. 운영 권장 사항](./4-Operational-Recommendations.md)
 
--   [[5. AWS Fault Injection Simulator를 사용한 카오스
-    엔지니어링]{.underline}](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/5-chaos-engineering)
+-   [5. AWS Fault Injection Simulator를 사용한 카오스 엔지니어링](./5-Chaos-Enginnering-with-AWS-Fault-Injection-Simulator.md)
 
--   [[6. 복원력 검사를 CICD 파이프라인에
-    통합]{.underline}](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/6-ci-cd)
+-   [6. 복원력 검사를 CICD 파이프라인에 통합](./6-Integrate-Resilience-Checks-into-CICD-Pipelines.md)
 
--   [[7. Lab
-    Clean-up]{.underline}](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/7-cleanup)
+-   [7. Lab Clean-up](./7-Lab-Clean-up.md)
 
 ## Lab Duration
 2 시간

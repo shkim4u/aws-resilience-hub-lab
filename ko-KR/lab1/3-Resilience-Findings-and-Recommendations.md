@@ -60,7 +60,7 @@ cd arh-lab-repo
  
 7. 다음 명령을 실행하여 CloudFormation 템플릿을 업데이트하고 Resilience Hub에서 권장하는 변경 사항을 구현합니다. 이 업데이트된 템플릿에 포함된 변경 사항은 <u>**RDS에 대한 자동 백업을 활성화하고, S3 버킷에 대해 Versionining 및 PITR(특정 시점으로 복구)을 사용하여 백업 계획을 활성화하고, 새 AZ에 두 번째 NAT 게이트웨이를 추가하는**</u> Resilience Hub의 권장 사항을 기반으로 합니다.
 ```
-curl -o workload.yaml 'https://static.us-east-1.prod.workshops.aws/public/5a801e9b-1799-4eb6-90fe-6054bda3c7cc/static/resources/workload-updated.yaml'
+curl -o workload.yaml 'https://static.ap-northeast-2.prod.workshops.aws/public/5a801e9b-1799-4eb6-90fe-6054bda3c7cc/static/resources/workload-updated.yaml'
 ```
 
 7.  다음으로 이러한 변경 사항을 코드 리포지토리에 푸시해야 합니다. 이렇게 하려면 다음 명령을 실행합니다.
