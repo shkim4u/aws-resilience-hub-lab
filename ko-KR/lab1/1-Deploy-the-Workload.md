@@ -30,9 +30,10 @@ AWS CloudFormation을 사용하여 이 실습에 필요한 리소스를 프로�
 2.  [CloudFormation 콘솔](https://console.aws.amazon.com/cloudformation/home)로 이동하여 **Create Stack > With new resources (standard)** 를 클릭합니다.
 ![CFNCreateStackButton](../images/lab1/CFNCreateStackButton.png)
 
-3.  **"Prepare template"** 항목에서 **"Template is ready"** 를 선택하고, **"Template source"** 에서는 **"Upload a template file"** 을 선택합니다. 위 1에서 다운로드한 CloudFormation 템플릿을 선택하고 \[Next\]를 클릭합니다.
+3.  **"Prepare template"** 항목에서 **"Template is ready"** 를 선택하고, **"Template source"** 에서는 **"Upload a template file"** 을 선택합니다. 위 1에서 다운로드한 CloudFormation 템플릿을 선택하고 **Next**를 클릭합니다.
 
-4.  **Stack name**에 arh-lab-pipeline을 입력합니다.
+4.  **Stack name**에 다음을 입력합니다.
+> arh-lab-pipeline
 
 5.  **NotificationEmail** 파라미터에 경보 알림을 수신할 이메일 주소를 입력합니다 (주의: 이 이메일 주소는 메시지 확인이 가능한 유효한 이메일 주소이어야 합니다). 다른 매개 변수에 대해서는 변경할 필요가 없습니다.
 ![pipelineparam](../images/lab1/PipelineParameters.png)
