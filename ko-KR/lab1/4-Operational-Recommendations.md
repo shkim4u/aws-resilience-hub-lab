@@ -1,8 +1,9 @@
-# 4. 운영 권장 사항
+[//]: # (# <span style="color:blue">4. 운영 권장 사항</span>)
+# [4. 운영 권장 사항]()
 
 복원력 권장 사항 외에도 Resilience Hub는 운영을 개선하는 방법에 대한 지침도 제공합니다. 운영 권장 사항에는 경보, 표준 운영 절차(SOP) 및 AWS Fault Injection Simulator 실험 설정에 대한 권장 사항이 포함되어 있습니다 (자세한 내용은 [여기](https://docs.aws.amazon.com/resilience-hub/latest/userguide/ops.reqs.html)를 참조). 이 섹션에서는 Resilience Hub에서 제공하는 운영 권장 사항을 검토하고 애플리케이션에 대해 구현할 수 있는 방법을 알아봅니다.
 
-## 운영 권장 사항
+## [운영 권장 사항]()
 
 1.  [AWS Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications)로 이동합니다.
 
@@ -19,7 +20,7 @@
 
 다음 섹션에서는 **알람 (Alarm)**, **표준 운영 절차 (Standard operating procedures)** 및 **오류 주입 실험 템플릿 (Fault injection experiment templates)** 권장 사항을 구현할 것입니다.
 
-### 경보 (Alarms)
+### [경보 (Alarms)]()
 
 1.  **Alarms** 탭을 선택하여 Resilience Hub에서 권장하는 경보 목록을 확인합니다.
 
@@ -36,7 +37,7 @@ ARH-alarm
 ```
 ![CreateAlarmTemplate](../images/lab1/CreateAlarmTemplate.png)
 
-### 표준 운영 절차 (SOP)
+### [표준 운영 절차 (SOP)]()
 
 1.  **Standard operating procedures** 탭을 선택하여 Resilience Hub에서 권장하는 SOP 목록을 확인합니다.
 
@@ -49,7 +50,7 @@ ARH-sop
 ```
 ![CreateSopTemplate](../images/lab1/CreateSopTemplate.png)
 
-### 오류 주입 실험 템플릿
+### [오류 주입 실험 템플릿]()
 
 1.  **Fault injection experiment templates**을 선택하여 응용 프로그램에서 실행할 수 있는 오류 주입 실험 목록을 확인합니다.
 
@@ -71,7 +72,7 @@ ARH-fis
 
 ![CreateExperimentTemplate](../images/lab1/CreateExperimentTemplate.png)
 
-### CloudFormation 템플릿 다운로드
+### [CloudFormation 템플릿 다운로드]()
 
 이전 단원에서는 Resilience Hub에서 제공하는 목록에서 구현할 운영 권장 사항을 선택하고 이에 대한 CloudFormation 템플릿을 생성했습니다. 이제 Resilience Hub에서 생성된 템플릿을 배포하고 애플리케이션이 얻을 수 있는 이점에 대해 자세히 알아보겠습니다.
 
@@ -91,11 +92,11 @@ ARH-fis
 
 6.  **ARH-sop** 및 **ARH-fis** 템플릿에 대해 1-5단계를 반복합니다.
 
-## 운영 권장 사항 구현
+## [운영 권장 사항 구현]()
 
 CloudFormation 템플릿은 워크로드에 운영 모범 사례를 구현하는 좋은 방법이며 사용자 지정이 가능합니다.
 
-### 경보
+### [경보]()
 
 1.  선호하는 텍스트 편집기에서 **ARH-alarm** 템플릿을 엽니다.
 
@@ -180,7 +181,7 @@ myWebApp-monitoring
 10. CloudFormation 콘솔로 돌아가 **myWebApp-Monitoring** 스택을 선택합니다 . **Resources** 탭을 클릭하고 "**AWSResilienceHubSyntheticCanaryInRegionAlarm20210401**"로 시작하는 논리적 ID를 찾습니다. 해당 Physical ID의 값을 복사합니다. 이 값은 다른 스택 (SOP)의 파라미터 값으로 사용됩니다.<br>
 ![AlarmName](../images/lab1/AlarmName.png)
 
-### 표준 운영 절차 (SOP)
+### [표준 운영 절차 (SOP)]()
 
 1.  [CloudFormation 콘솔](https://console.aws.amazon.com/cloudformation/home) 로 이동하여 **Create Stack > With new resources (standard)** 를 클릭합니다.<br>
 ![CFNCreateStack](../images/lab1/CFNCreateStackButton.png)
@@ -203,7 +204,7 @@ myWebApp-SOP
 
 6.  **Outputs** 탭을 클릭하고 **AWSResilienceHubAsgScaleOutAssumeRole**의 값을 복사합니다. 이 값은 이 Lab의 다음 스텝인 "5. Chaos Engineering with AWS Fault Injection Simulator"에서 사용됩니다.
 
-### 오류 주입 실험
+### [오류 주입 실험]()
 
 1.  선택한 텍스트 편집기에서 **ARH-fis** 템플릿을 엽니다.
 
