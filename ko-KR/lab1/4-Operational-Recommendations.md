@@ -223,7 +223,10 @@ myWebApp-SOP
 
 5.  **Prepare template** > **Template is ready**, **Template source** > **Upload a template file**을 각각 선택합니다. 이전 섹션에서 다운로드하고 편집한 **ARH-fis** 템플릿을 선택합니다.
 
-6.  스택 이름에 myWebApp-testing을 입력합니다.
+6.  스택 이름에 다음을 입력합니다.
+```
+myWebApp-testing
+```
 
 7. 파라미터의 경우 이전 단원에서 **myWebApp-Monitoring** 스택의 **Resources** 탭에서 가져온 카나리아 경보의 물리적 ID를 입력합니다 (논리적 ID **AWSResilienceHubSyntheticCanaryInRegionAlarm20210401**을 찾아 해당 물리 ID의 값을 복사).<br>
 ![FISParams](../images/lab1/FISParams.png)

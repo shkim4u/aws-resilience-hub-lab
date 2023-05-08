@@ -1,6 +1,6 @@
-# 1. 워크로드 배포
+# [1. 워크로드 배포]()
 
-## 아키텍처
+## [아키텍처]()
 
 아래 아키텍처 다이어그램은 우리가 사용할 응용 프로그램 인프라의 개요를 보여줍니다. Application Load Balancer, EC2 Auto Scaling 그룹의 EC2 인스턴스 Fleet 및 RDS 데이터베이스로 구성된 3티어 아키텍처입니다. EC2
 인스턴스는 NAT 게이트웨이를 통해 아웃바운드 연결을 가지며 애플리케이션의
@@ -17,12 +17,12 @@ AWS CloudFormation을 사용하여 이 실습에 필요한 리소스를 프로�
 
 [CodePipeline을 사용한 지속적 전달](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/continuous-delivery-codepipeline.html)에 대해 자세히 알아보기
 
-## 배포
+## [배포]()
 
 이 실습은 실습에 참여하시는 모든 분들이 이벤트 엔진을 각자 별도로 부여받아 수행하므로 고유한 자신의 계정을 가진 경우와 동일한 과정으로
 진행됩니다.
 
-### 템플릿 배포
+### [템플릿 배포]()
 
 1.  [pipeline.yaml](https://static.us-east-1.prod.workshops.aws/public/5a801e9b-1799-4eb6-90fe-6054bda3c7cc/static/resources/pipeline.yaml)
     CloudFormation 템플릿을 로컬 시스템에 다운로드합니다.
@@ -55,7 +55,7 @@ arh-lab-pipeline
 2.  스택이 생성되면 **\[Outputs**\] 탭으로 이동하여 출력의 키-값을 기록해 둡니다. 나중에 워크샵에서 사용할 것입니다.
 ![WorkloadOutputs](../images/lab1/WorkloadOutputs.png)
 
-### 어플리케이션 둘러보기
+### [어플리케이션 둘러보기]()
 
 1.  **arh-lab-workload** 스택의 outputs 탭으로 이동합니다.
 2.  브라우저의 새 탭에서 **WebsiteURL** 링크를 엽니다.
