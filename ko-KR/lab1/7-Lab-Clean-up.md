@@ -1,6 +1,6 @@
 # 7. Lab Clean-up
 
-## [랩 리소스 삭제D](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/7-cleanup#delete-lab-resources)
+## 랩 리소스 삭제
 
 랩을 완료한 후 추가 요금이 발생하지 않도록 하려면 랩 지침의 일부로 생성된 모든 리소스를 삭제합니다.
 

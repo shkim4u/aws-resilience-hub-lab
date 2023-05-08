@@ -1,6 +1,6 @@
 # AWS Resilience Hub를 사용하여 복원력 있는 아키텍처 모니터링
 
-## [AWS Resilience Hub란 무엇입니까?](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US#what-is-aws-resilience-hub)
+## AWS Resilience Hub란 무엇입니까?
 
 AWS Resilience Hub는 AWS 애플리케이션의 복원력을 정의, 검증 및 추적할 수
 있는 통합 위치를 제공합니다. 애플리케이션을 중단으로부터 보호하고,
@@ -28,7 +28,7 @@ AWS Resilience Hub는 AWS 애플리케이션의 복원력을 정의, 검증 및 
 자세한 사항은 [사용
 설명서](https://docs.aws.amazon.com/resilience-hub/latest/userguide/what-is.html)를 참조하세요.
 
-## [AWS Resilience Hub 워크샵](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US#aws-resilience-hub-workshop)
+## AWS Resilience Hub 워크샵
 
 이 워크숍의 목표는 <u>***AWS Well-Architected Framework***</u>의 안정성 Pillar와 관련되어 있는 AWS Resilience Hub의 다양한 기능을 살펴보는 것입니다.
 워크숍이 끝나면 다양한 서비스 구성 요소와 서비스를 사용하여 워크로드
@@ -46,8 +46,6 @@ AWS Resilience Hub는 AWS 애플리케이션의 복원력을 정의, 검증 및 
 ## 워크샵 수행 시간
 4시간 혹은 사전 지식 정도에 따라 더 걸릴 수 있음
 
-## [Labs](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US#labs)
-
+## Labs
 -   [Lab 1: AWS Resilience Hub를 준비하고 애플리케이션 중단을 방지하는 권장 사항 확인](./lab1/README.md)
-
 -   [Lab 2 (옵션, 워크샵 원본으로 연결): AWS Resilience Hub 및 AWS CodePipeline을 사용하여 애플리케이션 복원력을 지속적으로 평가](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/cicd-integration)

@@ -2,7 +2,7 @@
 
 CI/CD(지속적인 통합 및 지속적인 전달)는 최종 사용자에게 새로운 애플리케이션 기능을 신속하게 제공하는 데 사용되는 일반적인 모범 사례입니다. 이 개념은 또 다른 모범 사례인 IaC(Infrastructure as Code)를 사용할 때도 인프라에 적용됩니다. 이 섹션에서는 Resilience Hub 및 해당 복원력 검사를 CI/CD 프로세스에 통합하여 잠재적인 복원력 위험이 프로덕션 환경에 도입되는 것을 방지하는 방법을 살펴봅니다.
 
-## [파이프라인에 복원력 검사 추가](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/6-ci-cd#add-resilience-checks-to-pipeline)
+## 파이프라인에 복원력 검사 추가
 
 1.  [CloudFormation 콘솔](https://console.aws.amazon.com/cloudformation/home)로 이동하여 **arh-lab-pipeline** 스택을 선택합니다.
 
@@ -23,7 +23,7 @@ CI/CD(지속적인 통합 및 지속적인 전달)는 최종 사용자에게 새
 5.  [CodePipeline 콘솔](https://ap-northeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/arh-lab-pipeline/view?region=ap-northeast-2) 로 이동하여 **Resilience-check**라는 새 단계가 추가되었는지 확인합니다.
 ![NewStage](../images/lab1/NewStage.png)
 
-## [인프라 변경 배포](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/6-ci-cd#deploy-infrastructure-change)
+## 인프라 변경 배포
 
 Resilience Hub를 CI/CD 파이프라인에 통합했으므로 이제 워크로드 인프라를 업데이트하여 테스트할 차례입니다.
 
@@ -58,7 +58,7 @@ git push
 
 Resilience Hub를 CI/CD 파이프라인에 통합함으로써 알림을 받을 수 있었고 잘못된 변경 사항이 프로덕션으로 유입되지 않도록 조치를 취할 수 있었습니다.
 
-## [버킷 업데이트 및 재배포](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/6-ci-cd#update-bucket-and-redeploy)
+## 버킷 업데이트 및 재배포
 
 새 S3 버킷에 대한 변경 사항을 구현하고, 버전 관리를 활성화하고, AWS Backup Plan의 연속 백업 구성을 위해 적절한 태그를 추가합니다. 그런 다음 이 변경 사항을 코드 리포지토리에 커밋하고 어떤 일이 발생하는지 관찰합니다.
 

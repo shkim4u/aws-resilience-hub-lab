@@ -2,7 +2,7 @@
 
 카오스 엔지니어링은 운영 환경에서 발생할 수 있는 거친 조건을 견딜 수 있는 시스템의 능력에 대해 확신을 구축하기 위해, 결함을 시뮬레이션하여 시스템을 실험하는 분야 (Discipline)입니다. Resilience Hub를 통해 애플리케이션의 복원력을 이해하고 개선할 수 있는 방법을 찾을 수 있으며, 한편 카오스 엔지니어링은 오류에 대한 애플리케이션의 응답을 볼 수 있으므로 시스템에 대한 확신을 높여 줍니다. 이 단원에서는 [AWS Fault Injection Simulator](https://aws.amazon.com/fis/)를 사용하여 애플리케이션에 오류를 주입해 보도록 합니다.
 
-## [오류 주입](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/5-chaos-engineering#fault-injection)
+## 오류 주입
 
 워크로드에 대해 두 가지 다른 테스트를 수행합니다.
 
@@ -10,7 +10,7 @@
 
 2.  AutoScaling 그룹에 CPU 스트레스 주입
 
-### [RDS 장애 조치 (failover)](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/5-chaos-engineering#rds-failover)
+### RDS 장애 조치 (failover)
 
 1.  [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications)로 이동하여 **myWebApp** 애플리케이션을 선택합니다.
 
@@ -37,7 +37,7 @@
 
 10. 실험이 실행되는 동안 응용 프로그램이 중단되었나요? 중단이 발생한 경우 애플리케이션이 5분의 RTO 내에 복구되었습니까?
 
-### [오토스케일링 CPU 스트레스](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/5-chaos-engineering#autoscaling-group-cpu-stress)
+### 오토스케일링 CPU 스트레스
 
 1.  [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications)로 이동하여 **myWebApp** 애플리케이션을 선택합니다.
 

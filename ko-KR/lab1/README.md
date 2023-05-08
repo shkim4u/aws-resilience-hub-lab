@@ -1,6 +1,6 @@
 # AWS Resilience Hub를 준비하고 애플리케이션 중단을 방지하는 권장 사항 확인
 
-## [Lab 수행 목표](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect#lab-objectives)
+## Lab 수행 목표
 
 이 Lab 실습의 목표는 워크로드를 배포하고 AWS Resilience Hub를 사용하여 복원력을 측정하는 것입니다.
 
@@ -8,7 +8,7 @@ Resilience Hub에서 제공하는 권장 사항을 사용하여 워크로드를 
 
 실습을 마치면 Resilience Hub를 사용하여 애플리케이션 복원력을 측정하고 개선하는 방법을 이해하게 됩니다.
 
-## [Lab 수행 단계](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect#lab-steps)
+## Lab 수행 단계
 
 -   [1. 워크로드 배포](./1-Deploy-the-Workload.md)
 

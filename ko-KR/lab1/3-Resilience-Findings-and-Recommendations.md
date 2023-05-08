@@ -14,7 +14,7 @@
 4.  예상 **RTO** 및 **예상 RPO** 아래의 값을 클릭합니다. Resilience Hub가 이 평가를 제공한 이유에 대한 정보를 찾을 수 있습니다. 이 워크로드의 복원력 상태를 더 잘 이해하려면 다음을 살펴보세요.<br>
 ![BreachInfo](../images/lab1/BreachInfo.png)
 
-## [복원력 권장 사항](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/3-resiliency-recommendations#resiliency-recommendations)
+## 복원력 권장 사항
 
 Resilience Hub는 애플리케이션의 복원력을 평가하는 것 외에도 만든 복원력 정책에 정의된 RTO/RPO 요구 사항을 충족하기 위해 아키텍처를 개선할 수 있는 방법에 대한 지침도 제공합니다.
 
@@ -29,7 +29,7 @@ Resilience Hub는 애플리케이션의 복원력을 평가하는 것 외에도 
 | [백업해야 하는 모든 데이터 식별 및 백업](https://wa.aws.amazon.com/wat.question.REL_9.ko.html)    | RDS 데이터베이스의 데이터 및 S3 버킷이 백업됩니다.                                           |
 | [자동으로 데이터 백업 수행](https://wa.aws.amazon.com/wat.question.REL_9.ko.html)            | RDS 백업은 자동입니다. S3 객체 버전 관리도 자동으로 수행됩니다. AWS Backup도 자동입니다.                                              |                  
 
-## [워크로드 개선](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/3-resiliency-recommendations#improving-the-workload)
+## 워크로드 개선
 
 단일 리전 내에서 응용 프로그램의 복원력을 높이는 데 필요한 변경 내용을 적용해 보겠습니다. Resilience Hub에서 만든 권장 사항을 구현하기 위해 템플릿을 업데이트하고 코드 리포지토리에 커밋합니다. 이렇게 하면 CodePipeline이 워크로드에 대한 CloudFormation 스택에 변경 사항을 전달하도록 트리거됩니다.
 
@@ -72,7 +72,7 @@ git push
     1. (참고) **UPDATE_COMPLETE 대기:** 계속하기 전에 CloudFormation 스택 상태가 **UPDATE_COMPLETE**로 변경될 때까지 기다립니다. RDS 변경으로 인해 최대 10분이 걸릴 수 있습니다.<br>
 ![PipelineProgress](../images/lab1/PipelineProgress.png)
 
-## [응용 프로그램 재평가](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/3-resiliency-recommendations#reassess-the-application)
+## 응용 프로그램 재평가
 
 1.  업데이트가 완료되면 애플리케이션의 [Resilience Hub 대시보드](https://console.aws.amazon.com/resiliencehub/home#/application/myWebApp/summary)로 돌아갑니다 (**AWS Resilience Hub > Applications > myWebApp**).
 
@@ -99,7 +99,7 @@ git push
 
 그러나 현재 배포한 아키텍처는 여전히 Resilience Hub 내의 **복원력 정책**에서 설정한 기준을 *충족*합니다.
 
-## [최종 아키텍처](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/3-resiliency-recommendations#final-architecture)
+## 최종 아키텍처
 
 Resilience Hub에서 제공하는 권장 사항을 구현하면 이 최종 아키텍처가 생성됩니다. 변경 사항은 위의 표에 설명된 것과 정확히 같습니다.
 

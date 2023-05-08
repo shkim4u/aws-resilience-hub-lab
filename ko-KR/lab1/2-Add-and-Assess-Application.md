@@ -5,7 +5,7 @@
 먼저 워크로드에 대한 복원력
 목표(RTO/RPO)를 설명하는 복원력 정책을 만듭니다. 정책이 정의되면 새 애플리케이션을 만들어 Resilience Hub에 워크로드를 추가하고, 마지막으로 이 애플리케이션에 대해 복원력 평가를 실행합니다.
 
-## [정책 설정](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/2-add-app-to-arh#setting-up-the-policy)
+## 정책 설정
 
 1.  [AWS Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home)로 이동합니다.
 
@@ -23,7 +23,7 @@ RTO/RPO 대상에 따라 사용자 지정 정책을 만들 수도 있지만 이 
 
 5.  **Create**를 클릭합니다. 이렇게 하면 응용 프로그램과 연결할 수 있는 복원력 정책이 만들어지고 응용 프로그램에 대한 복원력 목표가 정의됩니다.
 
-## [어플리케이션 추가](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/2-add-app-to-arh#adding-the-application)
+## 어플리케이션 추가
 
 1.  [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/) 의 주 메뉴로 돌아가서 **Applications > Add application**을 선택합니다.
 
@@ -47,7 +47,7 @@ myWebApp
 
 8.  마지막 페이지는 검토 페이지이며, 세부 정보를 확인한 후 **"Publish"** 를 선택합니다.
 
-## [워크로드 복원력 평가](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/2-add-app-to-arh#assessing-workload-resilience)
+## 워크로드 복원력 평가
 
 응용 프로그램이 게시되면 응용 프로그램에 대해 Resilience Hub에서 워크플로 단계를 기록해 둡니다.<br>
 ![Assess](../images/lab1/Assess.png)
