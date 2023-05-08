@@ -11,15 +11,15 @@
 
 2.  왼쪽 메뉴에서 **Policies**를 선택하고 해당 화면에서 **Create resiliency policy**을 클릭합니다.
 
-3.  **Select a policy based on a suggested policy (제안된 정책에 따라 정책 선택)** 라디오 버튼을 선택하고 정책 이름에    
+3.  **Select a policy based on a suggested policy (제안된 정책에 따라 정책 선택)** 라디오 버튼을 선택하고 정책 이름에 아래 값을 입력합니다.   
 ```
 ARH-lab
 ```
-을 입력합니다. RTO/RPO 대상에 따라 사용자 지정 정책을 만들 수도 있지만 이 실습의 범위를 벗어납니다.
+RTO/RPO 대상에 따라 사용자 지정 정책을 만들 수도 있지만 이 실습의 범위를 벗어납니다.
 ![Create Policy Radio](../images/lab1/createPolicyRadio.png)
 
 4.  **"Suggested resiliency policies"** 섹션에서 **"Mission Critical Application"** 을 선택합니다. 드롭다운을 열어 다양한 [중단 유형](https://docs.aws.amazon.com/resilience-hub/latest/userguide/concepts-terms.html#disruption)에 대한 RTO 및 RPO가 정책에서 사용되는 것을 확인할 수 있습니다. 이러한 주제에 대한 자세한 내용은 [재해 복구 백서의 BCP(비즈니스 연속성 계획) 섹션](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/business-continuity-plan-bcp.html)에서 확인할 수 있습니다.
-![Policy Selection](../images/lab1/suggestedResiliencyPolicies.png)
+    ![Policy Selection](../images/lab1/suggestedResiliencyPolicies.png)
 
 5.  **Create**를 클릭합니다. 이렇게 하면 응용 프로그램과 연결할 수 있는 복원력 정책이 만들어지고 응용 프로그램에 대한 복원력 목표가 정의됩니다.
 
