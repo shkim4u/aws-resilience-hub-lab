@@ -1,6 +1,6 @@
 # [5. AWS Fault Injection Simulator를 사용한 카오스 엔지니어링]()
 
-카오스 엔지니어링은 운영 환경에서 발생할 수 있는 거친 조건을 견딜 수 있는 시스템의 능력에 대해 확신을 구축하기 위해, 결함을 시뮬레이션하여 시스템을 실험하는 분야 (Discipline)입니다. Resilience Hub를 통해 애플리케이션의 복원력을 이해하고 개선할 수 있는 방법을 찾을 수 있으며, 한편 카오스 엔지니어링은 오류에 대한 애플리케이션의 응답을 볼 수 있으므로 시스템에 대한 확신을 높여 줍니다. 이 단원에서는 [AWS Fault Injection Simulator](https://aws.amazon.com/fis/)를 사용하여 애플리케이션에 오류를 주입해 보도록 합니다.
+카오스 엔지니어링은 운영 환경에서 발생할 수 있는 거친 조건을 견딜 수 있는 시스템의 능력에 대해 확신을 가지기 위해, 결함을 시뮬레이션하여 시스템을 실험하는 분야 (Discipline)입니다. Resilience Hub를 통해 애플리케이션의 복원력을 이해하고 개선할 수 있는 방법을 찾을 수 있으며, 한편 카오스 엔지니어링은 오류에 대한 애플리케이션의 응답을 볼 수 있으므로 시스템에 대한 확신을 높여 줍니다. 이 단원에서는 [AWS Fault Injection Simulator](https://aws.amazon.com/fis/)를 사용하여 애플리케이션에 오류를 주입해 보도록 합니다.
 
 ## [오류 주입]()
 
@@ -30,7 +30,7 @@
 7.  실험이 **Completed**가 될 때까지 기다립니다.
 ![RDSExperimentComplete](../images/lab1/RDSExperimentComplete.png)
 
-8.  **arh-lab-canary**에 대한 [CloudWatch Synthetics Canaries 콘솔]](https://console.aws.amazon.com/cloudwatch/home#synthetics:canary/detail/arh-lab-canary)로 이동합니다. 이것은 어플리케이션으로 주기적으로 요청을 보내고 도달 가능한지 확인하여 애플리케이션 엔드포인트를 모니터링해 온 Synthetics 카나리아입니다.
+8.  **arh-lab-canary**에 대한 [CloudWatch Synthetics Canaries 콘솔](https://console.aws.amazon.com/cloudwatch/home#synthetics:canary/detail/arh-lab-canary)로 이동합니다. 이것은 어플리케이션으로 주기적으로 요청을 보내고 도달 가능한지 확인하여 애플리케이션 엔드포인트를 모니터링해 온 Synthetics 카나리아입니다.
 
 9.  **Canary runs** 실행 데이터를 관찰하여 FIS 실험이 실행 중일 때 애플리케이션 중단이 있었는지 확인합니다 (기간을 1시간으로 변경하고 마지막 10개의 데이터 요소 확인). 그래프가 업데이트될 때까지 몇 분 정도 기다려야 할 수 있습니다.
 ![CanaryData](../images/lab1/CanaryData.png)
@@ -56,7 +56,7 @@
 
 7.  이 부하를 완화하기 위해 이전 섹션에서 만든 SOP를 실행합니다.
 
-8.  [Resilience Hub 콘솔]](https://console.aws.amazon.com/resiliencehub/home#/applications)로 이동하여 **myWebApp** 애플리케이션을 선택합니다.
+8.  [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications)로 이동하여 **myWebApp** 애플리케이션을 선택합니다.
 
 9.  **SOPs** 탭을 클릭하고 **AWSResilienceHub-ScaleOutAsgSOP_2020-07-01** SOP를 클릭합니다. 그러면 Systems Manager 콘솔로 이동합니다.
 ![SopTab](../images/lab1/SopTab.png)
@@ -75,7 +75,7 @@
 
 14. [CloudWatch 콘솔](https://console.aws.amazon.com/cloudwatch/home#alarmsV2:alarm/)로 이동하고 **AWSResilienceHub-AsgHighCpuUtilizationAlarm-2020-07-13** 경보를 선택하여 상태를 확인합니다. 이제 OK 상태임을 알 수 있습니다. 또한 **arh-lab-canary**에 대한 [**[Canary runs]**](https://console.aws.amazon.com/cloudwatch/home#synthetics:canary/detail/arh-lab-canary) 실행 데이터를 검토 하여 FIS 실험이 실행 중일 때 애플리케이션 중단이 있었는지 확인할 수 있습니다(기간을 1시간으로 변경하고 마지막 10개의 데이터 포인트 확인). 그래프가 업데이트될 때까지 몇 분 정도 기다려야 할 수 있습니다.
 
-15. [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications)로 이동하여 **myWebApp** 애플리케이션을 선택합니다. ** Fault injection experiments** 실험 탭을 선택한 다음 **Experiments** 탭을 선택합니다. 실험은 여전히 실행 중이지만 애플리케이션은 더 이상 영향을 받지 않습니다(경보가 OK 상태인 것으로 입증됨).
+15. [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications)로 이동하여 **myWebApp** 애플리케이션을 선택합니다. **Fault injection experiments** 실험 탭을 선택한 다음 **Experiments** 탭을 선택합니다. 실험은 여전히 실행 중이지만 애플리케이션은 더 이상 영향을 받지 않습니다(경보가 OK 상태인 것으로 입증됨).
 
 > 다음 섹션을 계속 진행합니다
 >
