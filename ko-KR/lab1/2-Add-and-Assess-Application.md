@@ -15,19 +15,25 @@
 ```
 ARH-lab
 ```
-RTO/RPO 대상에 따라 사용자 지정 정책을 만들 수도 있지만 이 실습의 범위를 벗어납니다.
+RTO/RPO 대상에 따라 사용자 지정 정책을 만들 수도 있지만 이 실습의 범위를 벗어납니다.<br>
 ![Create Policy Radio](../images/lab1/createPolicyRadio.png)
 
-4.  **"Suggested resiliency policies"** 섹션에서 **"Mission Critical Application"** 을 선택합니다. 드롭다운을 열어 다양한 [중단 유형](https://docs.aws.amazon.com/resilience-hub/latest/userguide/concepts-terms.html#disruption)에 대한 RTO 및 RPO가 정책에서 사용되는 것을 확인할 수 있습니다. 이러한 주제에 대한 자세한 내용은 [재해 복구 백서의 BCP(비즈니스 연속성 계획) 섹션](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/business-continuity-plan-bcp.html)에서 확인할 수 있습니다.
-    ![Policy Selection](../images/lab1/suggestedResiliencyPolicies.png)
+4.  **"Suggested resiliency policies"** 섹션에서 **"Mission Critical Application"** 을 선택합니다. 드롭다운을 열어 다양한 [중단 유형](https://docs.aws.amazon.com/resilience-hub/latest/userguide/concepts-terms.html#disruption)에 대한 RTO 및 RPO가 정책에서 사용되는 것을 확인할 수 있습니다. 이러한 주제에 대한 자세한 내용은 [재해 복구 백서의 BCP(비즈니스 연속성 계획) 섹션](https://docs.aws.amazon.com/whitepapers/latest/disaster-recovery-workloads-on-aws/business-continuity-plan-bcp.html)에서 확인할 수 있습니다.<br>
+![Policy Selection](../images/lab1/suggestedResiliencyPolicies.png)
 
 5.  **Create**를 클릭합니다. 이렇게 하면 응용 프로그램과 연결할 수 있는 복원력 정책이 만들어지고 응용 프로그램에 대한 복원력 목표가 정의됩니다.
 
 ## [어플리케이션 추가](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/prepare-and-protect/2-add-app-to-arh#adding-the-application)
 
 1.  [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/) 의 주 메뉴로 돌아가서 **Add application**을 선택합니다.
-2.  응용 프로그램 이름으로 ```myWebApp```을 입력합니다.
+
+2.  응용 프로그램 이름으로 다음을 입력합니다.
+```
+myWebApp
+```
+
 3.  **"How is this application managed?"** 를 클릭하고 **"Resource collections"** 을 선택한 다음 **"Add Resource collections"** 밑의 **"Choose based on CloudFormation stack"** 을 선택합니다.
+
 4.  **"Select stacks"** 에서 **arh-lab-workload**를 선택합니다. Resilience Hub는 CloudFormation 스택 외에도 리소스 그룹, AppRegistry, Terraform 상태 파일, EKS 클러스터 및 Resilience Hub 내에 정의된 기존 애플리케이션으로부터 [리소스 가져오기](https://docs.aws.amazon.com/resilience-hub/latest/userguide/discover-structure.html)를 지원합니다.
 ![Discover Stacks](../images/lab1/DiscoverApplication.png)
 
