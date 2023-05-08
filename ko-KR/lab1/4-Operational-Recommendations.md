@@ -125,7 +125,7 @@ CloudFormation 템플릿은 워크로드에 운영 모범 사례를 구현하는
       "Ref" : "SNSTopicARN"
     } ],
     "AlarmDescription" : "Alarm by AWS Resilience Hub that is triggered when synthetic canary SuccessPercent drops below 100%",
-    "AlarmName" : "AWSResilienceHub-SyntheticCanaryInRegionAlarm-2021-04-01_update-4_ap-northeast-2",
+    "AlarmName" : "AWSResilienceHub-SyntheticCanaryInRegionAlarm-2021-04-01_update-4_us-east-1",
     "ComparisonOperator" : "LessThanThreshold",
     "EvaluationPeriods" : 5,
     "DatapointsToAlarm" : 5,
