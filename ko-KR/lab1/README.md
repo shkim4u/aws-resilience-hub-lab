@@ -22,7 +22,9 @@ Resilience Hub에서 제공하는 권장 사항을 사용하여 워크로드를 
 
 -   [6. 복원력 검사를 CICD 파이프라인에 통합](./6-Integrate-Resilience-Checks-into-CICD-Pipelines.md)
 
--   [7. Lab Clean-up](./7-Lab-Clean-up.md)
+-   [7. (도전 과제) Auto Scaling Group (ASG)에서 발생 가능한 가용 영역 장애 테스트](./7-(Challenge)-Implement-AZ-Outage-In-ASG.md)
+  
+-   [8. Lab Clean-up](./8-Lab-Clean-up.md)
 
 ## [Lab Duration]()
 2 시간

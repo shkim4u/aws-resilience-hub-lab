@@ -1,4 +1,4 @@
-# [7. Lab Clean-up]()
+# [8. Lab Clean-up]()
 
 ## [랩 리소스 삭제]()
 

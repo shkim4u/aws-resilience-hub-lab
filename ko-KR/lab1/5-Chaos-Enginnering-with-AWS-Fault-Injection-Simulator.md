@@ -51,7 +51,7 @@
 
 5.  **Experiments** 탭이 자동으로 선택되고 실험이 **Initiating**로 표시됩니다. 몇 초 후에 **Running**으로 변경됩니다. 실행 중인 실험은 Autoscaling 그룹의 인스턴스에 CPU 부하를 생성합니다. 이것은 내부적으로 stress-ng를 사용하여 CPU 부하를 생성하는 AWS Systems Manager 자동화 문서를 실행하고 있습니다.
 
-6.  [CloudWatch 콘솔]](https://console.aws.amazon.com/cloudwatch/home#alarmsV2:alarm/)로 이동하고 **AWSResilienceHub-AsgHighCpuUtilizationAlarm-2020-07-13** 경보를 선택하여 상태를 확인합니다. 몇 분 안에 경보 상태가 되는 것을 볼 수 있습니다. 여기에는 이메일에 대한 이메일 알림도 함께 제공됩니다 (받은 편지함으로의 실제 배달은 여러 가지 이유로 지연될 수 있음).
+6.  [CloudWatch 콘솔](https://console.aws.amazon.com/cloudwatch/home#alarmsV2:alarm/)로 이동하고 **AWSResilienceHub-AsgHighCpuUtilizationAlarm-2020-07-13** 경보를 선택하여 상태를 확인합니다. 몇 분 안에 경보 상태가 되는 것을 볼 수 있습니다. 여기에는 이메일에 대한 이메일 알림도 함께 제공됩니다 (받은 편지함으로의 실제 배달은 여러 가지 이유로 지연될 수 있음).
 ![ASGinAlarm](../images/lab1/ASGinAlarm.png)
 
 7.  이 부하를 완화하기 위해 이전 섹션에서 만든 SOP를 실행합니다.

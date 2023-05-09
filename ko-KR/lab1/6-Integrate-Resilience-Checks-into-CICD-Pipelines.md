@@ -93,4 +93,4 @@ git push
 
 <hr>
 
-## [[이전]](./5-Chaos-Enginnering-with-AWS-Fault-Injection-Simulator.md) | [[다음]](./7-Lab-Clean-up.md)
+## [[이전]](./5-Chaos-Enginnering-with-AWS-Fault-Injection-Simulator.md) | [[다음]](./7-(Challenge)-Implement-AZ-Outage-In-ASG.md)
