@@ -6,12 +6,12 @@ CI/CD(지속적인 통합 및 지속적인 전달)는 최종 사용자에게 새
 
 1.  [CloudFormation 콘솔](https://console.aws.amazon.com/cloudformation/home)로 이동하여 **arh-lab-pipeline** 스택을 선택합니다.
 
-2.  **Update**를 클릭합니다. **Prerequisite - Prepare template**에 대한 변경은 필요하지 않으며 **Next**를 클릭합니다.
+2.  **Update**를 클릭합니다. **Prerequisite - Prepare template**에 대한 변경은 필요하지 않으므로 그대로 두고 **Next**를 클릭합니다.
 
 3.  parameters 섹션에서 다음 값을 입력합니다.
-    -   ApplicationARN - Resilience Hub 내에 정의된 애플리케이션의 ARN을 붙여넣습니다. 이 값은 [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications) 의 ARN 열 아래에서 찾을 수 있습니다.
+    -   ApplicationARN - Resilience Hub 내에 정의된 애플리케이션의 ARN을 붙여넣습니다. 이 값은 [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications) 의 ARN 열 아래에서 찾을 수 있습니다.<br>
+    ![ApplicationARN](../images/lab1/ApplicationARN.png)
     -   ResilienceCheck - 이 값을 true로 변경합니다.
-
     ![PipelineUpdate](../images/lab1/PipelineUpdate.png)
 
 4.  **Next**를 클릭하여 검토 페이지로 이동합니다. **"I acknowledge that AWS CloudFormation might create IAM resources with custom names."** 확인란을 선택하고 **Submit**을 클릭합니다.
@@ -45,12 +45,16 @@ git commit -am "adding a new S3 bucket"
 git push
 ```
 
-5. [CodePipeline 콘솔]](https://ap-northeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/arh-lab-pipeline/view?region=ap-northeast-2)로 이동하여 파이프라인 실행이 진행 중인지 확인합니다.
+5. [CodePipeline 콘솔](https://ap-northeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/arh-lab-pipeline/view?region=ap-northeast-2)로 이동하여 파이프라인 실행이 진행 중인지 확인합니다.
 
 6. 파이프라인은 **Resilience-check** 단계에서 실패할 것입니다. 이 실패에 대한 알림을 위해 이메일 (Lab 리소스 생성 시 NotificationEmail 매개 변수로 입력한 값)을 모니터링합니다. **ComplianceStatus**가 **PolicyBreached**라는 알림을 받아야 합니다.
 ![PipelineFail](../images/lab1/PipelineFail.png)
 
-7. [Resilience Hub 콘솔]](https://console.aws.amazon.com/resiliencehub/home#/applications)로 이동하여 **myWebApp** 애플리케이션을 선택합니다.
+> Policy Breached 이메일
+> 
+> ![PolicyBreached](../images/lab1/PolicyBreached.png)
+
+7. [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications)로 이동하여 **myWebApp** 애플리케이션을 선택합니다.
 
 8. **Assessments** 탭을 선택합니다. 알림 이메일과 마찬가지로 **Compliance status**가 **Policy breached**로 표시됩니다.
 
