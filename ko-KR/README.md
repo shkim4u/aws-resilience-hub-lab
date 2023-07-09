@@ -46,6 +46,9 @@ AWS Resilience Hub는 AWS 애플리케이션의 복원력을 정의, 검증 및 
 ## [워크샵 수행 시간]()
 3시간 혹은 사전 지식 정도에 따라 더 걸릴 수 있음
 
+## [실습 환경 구성]()
+- 먼저 [[Cloud9 환경을 구성]](cloud9/cloud9-new.md)합니다.
+
 ## [Labs]()
--   [Lab 1: AWS Resilience Hub를 준비하고 애플리케이션 중단을 방지하는 권장 사항 확인](./lab1/README.md)
--   [Lab 2 (옵션, 워크샵 원본으로 연결): AWS Resilience Hub 및 AWS CodePipeline을 사용하여 애플리케이션 복원력을 지속적으로 평가](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/cicd-integration)
+- [Lab 1: AWS Resilience Hub를 준비하고 애플리케이션 중단을 방지하는 권장 사항 확인](./lab1/README.md)
+- [Lab 2 (옵션, 워크샵 원본으로 연결): AWS Resilience Hub 및 AWS CodePipeline을 사용하여 애플리케이션 복원력을 지속적으로 평가](https://catalog.workshops.aws/aws-resilience-hub-lab/en-US/cicd-integration)
