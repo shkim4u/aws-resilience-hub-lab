@@ -24,7 +24,7 @@ AWS CloudFormation을 사용하여 이 실습에 필요한 리소스를 프로�
 
 ### [템플릿 배포]()
 
-1.  아래 CloudFormation 템플릿을 로컬 시스템에 다운로드합니다.
+1.  아래 CloudFormation 템플릿을 로컬 시스템에 다운로드합니다. (마우스 오른쪽 버튼 클릭 -> 다른 이름으로 저장)
 
     * [[pipeline.yaml]](https://raw.githubusercontent.com/shkim4u/aws-resilience-hub-lab/main/ko-KR/cloudformation/pipeline.yaml)
 

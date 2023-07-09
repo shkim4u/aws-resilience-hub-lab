@@ -15,10 +15,10 @@ Parameters:
       - 'true'
       - 'false'
 Conditions:
-  IsResilienceCheck: !Equals 
+  IsResilienceCheck: !Equals
     - !Ref ResilienceCheck
     - 'true'
-  EnableSNS: !Equals 
+  EnableSNS: !Equals
     - !Ref NotificationEmail
     - N/A
 Resources:
@@ -27,7 +27,7 @@ Resources:
     Properties:
       TopicName: 'ARH-lab-notifications'
       Subscription:
-        - !If 
+        - !If
           - EnableSNS
           - !Ref 'AWS::NoValue'
           - Endpoint: !Ref NotificationEmail
@@ -124,8 +124,8 @@ Resources:
       Code:
         BranchName: main
         S3:
-          Bucket: c3pio
-          Key: ARH-lab-templates/app.zip
+          Bucket: aws-well-architected-labs-ap-northeast-2
+          Key: Reliability/app.zip
   CloudWatchEventRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -145,7 +145,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: 'codepipeline:StartPipelineExecution'
-                Resource: !Join 
+                Resource: !Join
                   - ''
                   - - 'arn:aws:codepipeline:'
                     - !Ref 'AWS::Region'
@@ -162,14 +162,14 @@ Resources:
         detail-type:
           - CodeCommit Repository State Change
         resources:
-          - !Join 
+          - !Join
             - ''
             - - 'arn:aws:codecommit:'
               - !Ref 'AWS::Region'
               - ':'
               - !Ref 'AWS::AccountId'
               - ':'
-              - !GetAtt 
+              - !GetAtt
                 - CodeRepository
                 - Name
         detail:
@@ -181,7 +181,7 @@ Resources:
           referenceName:
             - main
       Targets:
-        - Arn: !Join 
+        - Arn: !Join
             - ''
             - - 'arn:aws:codepipeline:'
               - !Ref 'AWS::Region'
@@ -189,7 +189,7 @@ Resources:
               - !Ref 'AWS::AccountId'
               - ':'
               - !Ref Pipeline
-          RoleArn: !GetAtt 
+          RoleArn: !GetAtt
             - CloudWatchEventRole
             - Arn
           Id: codepipeline-Pipeline
@@ -200,7 +200,7 @@ Resources:
         Location: !Ref ArtifactBucket
         Type: S3
       Name: arh-lab-pipeline
-      RoleArn: !GetAtt 
+      RoleArn: !GetAtt
         - PipelineRole
         - Arn
       Stages:
@@ -217,7 +217,7 @@ Resources:
                 BranchName: main
                 OutputArtifactFormat: CODE_ZIP
                 PollForSourceChanges: 'false'
-                RepositoryName: !GetAtt 
+                RepositoryName: !GetAtt
                   - CodeRepository
                   - Name
               OutputArtifacts:
@@ -240,7 +240,7 @@ Resources:
                 OutputFileName: outputs
                 StackName: arh-lab-workload
                 TemplatePath: 'SourceArtifact::workload.yaml'
-                RoleArn: !GetAtt 
+                RoleArn: !GetAtt
                   - PipelineCFNRole
                   - Arn
               OutputArtifacts: []
@@ -248,7 +248,7 @@ Resources:
                 - Name: SourceArtifact
               Region: !Ref 'AWS::Region'
               Namespace: DeployVariables
-        - !If 
+        - !If
           - IsResilienceCheck
           - Name: Resilience-check
             Actions:
@@ -291,7 +291,7 @@ Resources:
               - Action: 'sns:Publish'
                 Effect: Allow
                 Resource: '*'
-              - Action: 
+              - Action:
                   - 'cloudformation:ListStackResources'
                   - 'cloudformation:DescribeStacks'
                   - 's3:*'
@@ -313,7 +313,7 @@ Resources:
     Type: 'AWS::StepFunctions::StateMachine'
     Condition: IsResilienceCheck
     Properties:
-      RoleArn: !GetAtt 
+      RoleArn: !GetAtt
         - StateMachineRole
         - Arn
       DefinitionString: >-
@@ -367,7 +367,7 @@ Resources:
 Outputs:
   CloneURL:
     Description: URL to use for cloning the code repository
-    Value: !GetAtt 
+    Value: !GetAtt
       - CodeRepository
       - CloneUrlHttp
   SNSTopicARN:
