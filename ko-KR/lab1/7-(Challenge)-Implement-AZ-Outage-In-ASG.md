@@ -24,7 +24,7 @@
 2. 위 파일의 딱 한줄을 바꾸고 아래를 수행하면 인프라가 업데이트되어 배포되기는 하지만 복원력 검사 (Resilience Check)을 통과하지 못하도록 만들 수 있습니다.
 3. 해당 줄을 식별하고 수정하여 아래와 같은 Assessment 상태가 되도록 유도해 보십시요.<br>
 > ![ResilienceCheckFailedInPipeline](../images/lab1-challenge/18-FIS-ResilienceCheckFailedAfterASGDisableZoneB.png)
-> ![ResilienceCheckFailedInPipeline](../images/lab1-challenge/19-FIS-AZBreach.png)
+> ![ResilienceCheckFailedInPipeline](../images/lab1-challenge/19-FIS-AZBreach-New.png)
 
 <hr>
 
