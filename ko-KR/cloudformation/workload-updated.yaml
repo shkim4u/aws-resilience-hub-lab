@@ -1,0 +1,550 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  AWS CloudFormation Sample Template to create lab resources. Creates an
+  Application Load Balancer, Target Groups, and EC2 instances in a new VPC.
+  **WARNING** You will be billed for the AWS resources created if you create a
+  stack from this template.
+  Copyright 2019 Amazon.com, Inc. or its affiliates. All Rights Reserved.
+  Licensed under the Apache License, Version 2.0 (the "License"). You may not
+  use this file except in compliance with the License. A copy of the License is
+  located at
+      https://www.apache.org/licenses/LICENSE-2.0
+  or in the "license" file accompanying this file. This file is distributed  on
+  an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+  or implied. See the License for the specific language governing permissions
+  and limitations under the License.
+Parameters:
+  LatestAmiId:
+    Type: 'AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>'
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Resources:
+  # Network resources
+  VPC:
+    Type: 'AWS::EC2::VPC'
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      Tags:
+        - Key: Name
+          Value: WA-Lab-VPC
+  PublicSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs ''
+      CidrBlock: 10.0.0.0/24
+      VpcId: !Ref VPC
+      MapPublicIpOnLaunch: 'true'
+      Tags:
+        - Key: Name
+          Value: WA-Lab-Subnet-1
+  PublicSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
+      CidrBlock: 10.0.1.0/24
+      VpcId: !Ref VPC
+      MapPublicIpOnLaunch: 'true'
+  PrivateSubnet1:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Select
+        - '0'
+        - !GetAZs ''
+      CidrBlock: 10.0.2.0/24
+      VpcId: !Ref VPC
+  PrivateSubnet2:
+    Type: 'AWS::EC2::Subnet'
+    Properties:
+      AvailabilityZone: !Select
+        - '1'
+        - !GetAZs ''
+      CidrBlock: 10.0.3.0/24
+      VpcId: !Ref VPC
+  InternetGateway:
+    Type: 'AWS::EC2::InternetGateway'
+    Properties:
+      Tags:
+        - Key: Name
+          Value: WA-Lab-InternetGateway
+  VPCGatewayAttachment:
+    Type: 'AWS::EC2::VPCGatewayAttachment'
+    Properties:
+      InternetGatewayId: !Ref InternetGateway
+      VpcId: !Ref VPC
+  EIP1:
+    Type: 'AWS::EC2::EIP'
+  EIP2:
+    Type: 'AWS::EC2::EIP'
+  NATGateway1:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt EIP1.AllocationId
+      SubnetId: !Ref PublicSubnet1
+  NATGateway2:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt EIP2.AllocationId
+      SubnetId: !Ref PublicSubnet2
+  PublicRouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+  PublicRouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+  PrivateRouteTable1:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+  PrivateRouteTable2:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+  PublicRouteTableAssociation1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable1
+      SubnetId: !Ref PublicSubnet1
+  PublicRouteTableAssociation2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PublicRouteTable2
+      SubnetId: !Ref PublicSubnet2
+  PrivateRouteTableAssociation1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable1
+      SubnetId: !Ref PrivateSubnet1
+  PrivateRouteTableAssociation2:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable2
+      SubnetId: !Ref PrivateSubnet2
+  PublicRoute1:
+    Type: AWS::EC2::Route
+    DependsOn: VPCGatewayAttachment
+    Properties:
+      DestinationCidrBlock: '0.0.0.0/0'
+      RouteTableId: !Ref PublicRouteTable1
+      GatewayId: !Ref InternetGateway
+  PublicRoute2:
+    Type: AWS::EC2::Route
+    DependsOn: VPCGatewayAttachment
+    Properties:
+      DestinationCidrBlock: '0.0.0.0/0'
+      RouteTableId: !Ref PublicRouteTable2
+      GatewayId: !Ref InternetGateway
+  PrivateRoute1:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: '0.0.0.0/0'
+      RouteTableId: !Ref PrivateRouteTable1
+      NatGatewayId: !Ref NATGateway1
+  PrivateRoute2:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: '0.0.0.0/0'
+      RouteTableId: !Ref PrivateRouteTable2
+      NatGatewayId: !Ref NATGateway2
+
+  # Security groups and permissions
+  ALBSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: >-
+        Enable HTTP access via port 80 to the allowed CIDR
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: '0.0.0.0/0'
+      VpcId: !Ref VPC
+
+  InstanceSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: >-
+        Enable HTTP access via port 80 restricted to the load balancer
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+      VpcId: !Ref VPC
+
+  DBSecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Database access from web tier
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          SourceSecurityGroupId: !Ref InstanceSecurityGroup
+      VpcId: !Ref VPC
+
+  EC2InstanceRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+  EC2InstanceProfile:
+    Type: 'AWS::IAM::InstanceProfile'
+    Properties:
+      Roles:
+        - !Ref EC2InstanceRole
+
+  # Load Balancer, listeners and target groups
+  ALB:
+    Type: 'AWS::ElasticLoadBalancingV2::LoadBalancer'
+    DependsOn: VPCGatewayAttachment
+    Properties:
+      SecurityGroups:
+        - Ref: ALBSecurityGroup
+      Subnets:
+        - !Ref PublicSubnet1
+        - !Ref PublicSubnet2
+  
+  ALBTargetGroup:
+    Type: 'AWS::ElasticLoadBalancingV2::TargetGroup'
+    Properties:
+      HealthCheckPath: /
+      HealthCheckIntervalSeconds: 10
+      HealthCheckTimeoutSeconds: 5
+      HealthyThresholdCount: 2
+      Port: 80
+      Protocol: HTTP
+      UnhealthyThresholdCount: 5
+      VpcId: !Ref VPC
+
+  ALBListener:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref ALBTargetGroup
+      LoadBalancerArn: !Ref ALB
+      Port: 80
+      Protocol: HTTP
+
+  # RDS Database
+  DBSubnetGroup:
+    Type: "AWS::RDS::DBSubnetGroup"
+    Properties:
+      DBSubnetGroupDescription: 'Lab DB subnet group'
+      DBSubnetGroupName: 'dbsubnetgroup'
+      SubnetIds:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+
+  DBInstance:
+    Type: "AWS::RDS::DBInstance"
+    Properties:
+      DBName: 'employees'
+      MultiAZ: true
+      PubliclyAccessible: false
+      MasterUsername: 'admin'
+      MasterUserPassword: 'password'
+      AllocatedStorage: '20'
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      DBInstanceClass: db.t3.small
+      BackupRetentionPeriod: 7
+      Engine: mysql
+      EngineVersion: '8.0.28'
+      VPCSecurityGroups:
+        - !Ref DBSecurityGroup
+
+  # EC2 AutoScaling
+  LaunchConfig:
+    Type: 'AWS::AutoScaling::LaunchConfiguration'
+    Properties:
+      ImageId: !Ref LatestAmiId
+      IamInstanceProfile: !Ref EC2InstanceProfile
+      InstanceType: 't3.micro'
+      SecurityGroups:
+        - !Ref InstanceSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          yum install -y mysql
+          pip3 install pymysql
+          pip3 install flask
+          export host=${DBInstance.Endpoint.Address}
+          mysql -h $host -P 3306 -u admin -ppassword -Bse "use employees;create table employee_details (name varchar(30), city varchar(30));"
+          curl -o /home/ec2-user/application.zip https://aws-well-architected-labs.s3.us-west-2.amazonaws.com/Reliability/Archive.zip
+          cd /home/ec2-user/
+          unzip application.zip
+          nohup python3 /home/ec2-user/app.py >> /var/log/webserver.log 2>&1 &
+
+  AutoScalingGroup:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      VPCZoneIdentifier:
+        - !Ref PrivateSubnet1
+        - !Ref PrivateSubnet2
+      LaunchConfigurationName: !Ref LaunchConfig
+      HealthCheckGracePeriod: 60
+      HealthCheckType: ELB
+      MinSize: '2'
+      MaxSize: '2'
+      TargetGroupARNs:
+        - !Ref ALBTargetGroup
+  
+  # Miscellaneous
+  Bucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Join
+      - "-"
+      - - "arh-lab-bucket"
+        - !Select
+          - 0
+          - !Split
+            - "-"
+            - !Select
+              - 2
+              - !Split
+                - "/"
+                - !Ref "AWS::StackId"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: 'AES256'
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      VersioningConfiguration:
+        Status: Enabled
+      Tags:
+        - Key: backup
+          Value: pitr
+
+  CanaryRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: 'ARH-lab-canary-role'
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+
+  CanaryRolePermissions:
+    Type: AWS::IAM::Policy
+    Properties:
+      Roles:
+        - !Ref CanaryRole
+      PolicyName: 'ARH-lab-canary-policy'
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:PutObject
+              - s3:GetObject
+            Resource: !Sub 'arn:aws:s3:::${CanaryBucket}/*'
+          - Effect: Allow
+            Action:
+              - s3:GetBucketLocation
+            Resource: !Sub 'arn:aws:s3:::${CanaryBucket}'
+          - Effect: Allow
+            Action:
+              - logs:CreateLogStream
+              - logs:PutLogEvents
+              - logs:CreateLogGroup
+            Resource: !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/lambda/cwsyn-arh-lab-canary-*'
+          - Effect: Allow
+            Action:
+              - s3:ListAllMyBuckets
+            Resource: '*'
+          - Effect: Allow
+            Resource: '*'
+            Action: cloudwatch:PutMetricData
+            Condition:
+              StringEquals:
+                cloudwatch:namespace: CloudWatchSynthetics
+
+  CanaryBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      VersioningConfiguration:
+        Status: Enabled
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      Tags:
+        - Key: backup
+          Value: pitr
+
+  Canary:
+    Type: AWS::Synthetics::Canary
+    DependsOn: AutoScalingGroup
+    Properties:
+      Name: 'arh-lab-canary'
+      Code:
+        Handler: pageLoadBlueprint.handler
+        Script:
+            Fn::Sub:
+              - |
+                  var synthetics = require('Synthetics');
+
+                  const log = require('SyntheticsLogger');
+
+                  const pageLoadBlueprint = async function () {
+
+                  // INSERT URL here
+
+                  const URL = "http://${url}/";
+
+
+                  let page = await synthetics.getPage();
+
+                  const response = await page.goto(URL, {waitUntil: 'domcontentloaded',
+                  timeout: 30000});
+
+                  //Wait for page to render.
+
+                  //Increase or decrease wait time based on endpoint being monitored.
+
+                  await page.waitFor(15000);
+
+                  await synthetics.takeScreenshot('loaded', 'loaded');
+
+                  let pageTitle = await page.title();
+
+                  log.info('Page title: ' + pageTitle);
+
+                  if (response.status() !== 200) {
+                      throw "Failed to load page!";
+                  }
+
+                  };
+
+
+                  exports.handler = async () => {
+
+                  return await pageLoadBlueprint();
+
+                  };
+              - url: !GetAtt
+                        - ALB
+                        - DNSName
+      ExecutionRoleArn:
+        Fn::GetAtt:
+          - CanaryRole
+          - Arn
+      RuntimeVersion: syn-nodejs-puppeteer-3.6
+      ArtifactS3Location:
+        Fn::Join:
+          - ''
+          - - s3://
+            - Ref: CanaryBucket
+      StartCanaryAfterCreation: True
+      DeleteLambdaResourcesOnCanaryDeletion: True
+      Schedule:
+        Expression: rate(1 minute)
+      SuccessRetentionPeriod: 1
+      FailureRetentionPeriod: 1
+      
+  # AWS Backup resources
+  BackupVault:
+    Type: AWS::Backup::BackupVault
+    DeletionPolicy: Delete
+    UpdateReplacePolicy: Delete
+    Properties:
+      BackupVaultName: 'ARH-lab-backup-vault'
+
+  BackupRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: "ARH-lab-backup-role"
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: backup.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup
+        - arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForRestores
+        - arn:aws:iam::aws:policy/AWSBackupServiceRolePolicyForS3Backup
+        - arn:aws:iam::aws:policy/AWSBackupServiceRolePolicyForS3Restore
+
+  BackupRoleSSM:
+    Type: AWS::IAM::Policy
+    Properties:
+      Roles:
+        - !Ref BackupRole
+      PolicyName: "ARH-lab-backup-policy"
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - ssm:GetParameters
+            Resource: '*'
+
+  BackupPlanWithPITR:
+    Type: AWS::Backup::BackupPlan
+    Properties:
+      BackupPlan:
+        BackupPlanName: "ARH-lab-backup-plan"
+        BackupPlanRule:
+          -
+            RuleName: "RuleForPitrBackups"
+            TargetBackupVault: !Ref BackupVault
+            ScheduleExpression: "cron(0 5 ? * * *)"
+            EnableContinuousBackup: true
+            Lifecycle:
+              DeleteAfterDays: 7
+
+  BackupResourceSelection:
+    Type: AWS::Backup::BackupSelection
+    Properties:
+      BackupSelection:
+        SelectionName: "PitrTagBasedBackupSelection"
+        IamRoleArn: !GetAtt BackupRole.Arn
+        ListOfTags:
+          - ConditionType: "STRINGEQUALS"
+            ConditionKey: "backup"
+            ConditionValue: "pitr"
+      BackupPlanId: !Ref BackupPlanWithPITR
+
+Outputs:
+  AutoScalingGroup:
+    Value: !Ref AutoScalingGroup
+  WebsiteURL:
+    Value: !Join
+      - ''
+      - - 'http://'
+        - !GetAtt
+          - ALB
+          - DNSName
+        - /
+    Description: Sample website
+  CanaryName:
+    Value: !Ref Canary
+  StackId:
+    Value: !Ref AWS::StackId
