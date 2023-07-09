@@ -98,6 +98,14 @@ AWS Cloud9 환경은 EC2 인스턴스로 구동됩니다. 따라서 EC2 콘솔�
 - Credentials 항목에서 AWS managed temporary credentials 설정을 비활성화합니다.<br>
   ![disable-managed-credential.png](../images/cloud9/disable-managed-credentials.png)
 - Preference tab을 종료합니다.
+
+## 2. Cloud9 통합 환경 설정 파일 실행
+
+```bash
+cd ~/environment/
+curl -fsSL https://raw.githubusercontent.com/shkim4u/aws-resilience-hub-lab/main/ko-KR/cloud9/cloud9.sh | bash
+```
+
 - Temporary credentials이 없는지 확실히 하기 위해 기존의 자격 증명 파일도 제거합니다.
 
 ```bash
@@ -137,7 +145,7 @@ sudo chmod +x /usr/local/bin/kubectl
 kubectl version --short --client
 ```
 
-### 2.1. eksctl 설치
+### 2.2. eksctl 설치
 
 [eksctl](https://eksctl.io/)이란 EKS 클러스터를 쉽게 생성 및 관리하는 CLI 툴입니다. Go 언어로 쓰여 있으며 CloudFormation 형태로 배포됩니다. 아래의 명령어를 통해, 최신의 eksctl 바이너리를 다운로드 합니다.
 > (참고) 우리는 이번 핸즈온에서는 eksctl을 적극적으로 사용하지 않을 것이지만 사용이 필요할 수 있으므로 설치해 두기로 합니다.
