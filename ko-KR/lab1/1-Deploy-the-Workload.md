@@ -24,8 +24,10 @@ AWS CloudFormation을 사용하여 이 실습에 필요한 리소스를 프로�
 
 ### [템플릿 배포]()
 
-1.  [pipeline.yaml](https://static.us-east-1.prod.workshops.aws/public/5a801e9b-1799-4eb6-90fe-6054bda3c7cc/static/resources/pipeline.yaml)
-    CloudFormation 템플릿을 로컬 시스템에 다운로드합니다.
+1.  아래 CloudFormation 템플릿을 로컬 시스템에 다운로드합니다.
+
+    * [[pipeline.yaml]](https://raw.githubusercontent.com/shkim4u/aws-resilience-hub-lab/main/ko-KR/cloudformation/pipeline.yaml)
+
 
 2.  [CloudFormation 콘솔](https://console.aws.amazon.com/cloudformation/home)로 이동하여 **Create Stack > With new resources (standard)** 를 클릭합니다.
 ![CFNCreateStackButton](../images/lab1/CFNCreateStackButton.png)

@@ -1,0 +1,374 @@
+Parameters:
+  ApplicationARN:
+    Type: String
+    Description: ARN of the application on AWS Resilience Hub
+    Default: N/A
+  NotificationEmail:
+    Type: String
+    Description: The email address where notifications are sent
+    Default: N/A
+  ResilienceCheck:
+    Type: String
+    Description: Set to true to enable resilience checks in the pipeline
+    Default: 'false'
+    AllowedValues:
+      - 'true'
+      - 'false'
+Conditions:
+  IsResilienceCheck: !Equals 
+    - !Ref ResilienceCheck
+    - 'true'
+  EnableSNS: !Equals 
+    - !Ref NotificationEmail
+    - N/A
+Resources:
+  SNSTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      TopicName: 'ARH-lab-notifications'
+      Subscription:
+        - !If 
+          - EnableSNS
+          - !Ref 'AWS::NoValue'
+          - Endpoint: !Ref NotificationEmail
+            Protocol: email
+  ArtifactBucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: !Sub 'arh-lab-pipeline-${AWS::Region}-${AWS::AccountId}'
+  PipelineCFNRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Description: Role for CFN stack create/update
+      Policies:
+        - PolicyName: cfn-actions
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: '*'
+                Resource: '*'
+      RoleName: arh-lab-cfn-role
+  PipelineRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codepipeline.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Description: Role for ARH lab pipeline
+      Policies:
+        - PolicyName: pipeline-actions
+          PolicyDocument:
+            Statement:
+              - Action:
+                  - 'iam:PassRole'
+                Resource: '*'
+                Effect: Allow
+                Condition:
+                  StringEqualsIfExists:
+                    'iam:PassedToService':
+                      - cloudformation.amazonaws.com
+              - Action:
+                  - 'codecommit:CancelUploadArchive'
+                  - 'codecommit:GetBranch'
+                  - 'codecommit:GetCommit'
+                  - 'codecommit:GetRepository'
+                  - 'codecommit:GetUploadArchiveStatus'
+                  - 'codecommit:UploadArchive'
+                Resource: '*'
+                Effect: Allow
+              - Action:
+                  - 's3:*'
+                Resource: '*'
+                Effect: Allow
+              - Action:
+                  - 'cloudformation:CreateStack'
+                  - 'cloudformation:DeleteStack'
+                  - 'cloudformation:DescribeStacks'
+                  - 'cloudformation:UpdateStack'
+                  - 'cloudformation:CreateChangeSet'
+                  - 'cloudformation:DeleteChangeSet'
+                  - 'cloudformation:DescribeChangeSet'
+                  - 'cloudformation:ExecuteChangeSet'
+                  - 'cloudformation:SetStackPolicy'
+                  - 'cloudformation:ValidateTemplate'
+                Resource: '*'
+                Effect: Allow
+              - Effect: Allow
+                Action:
+                  - 'cloudformation:ValidateTemplate'
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - 'states:DescribeExecution'
+                  - 'states:DescribeStateMachine'
+                  - 'states:StartExecution'
+                Resource: '*'
+            Version: 2012-10-17
+      RoleName: arh-lab-pipeline-role
+  CodeRepository:
+    Type: 'AWS::CodeCommit::Repository'
+    Properties:
+      RepositoryName: arh-lab-repo
+      Code:
+        BranchName: main
+        S3:
+          Bucket: c3pio
+          Key: ARH-lab-templates/app.zip
+  CloudWatchEventRole:
+    Type: 'AWS::IAM::Role'
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - events.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Path: /
+      Policies:
+        - PolicyName: pipeline-execution
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: 'codepipeline:StartPipelineExecution'
+                Resource: !Join 
+                  - ''
+                  - - 'arn:aws:codepipeline:'
+                    - !Ref 'AWS::Region'
+                    - ':'
+                    - !Ref 'AWS::AccountId'
+                    - ':'
+                    - !Ref Pipeline
+  CloudWatchEventRule:
+    Type: 'AWS::Events::Rule'
+    Properties:
+      EventPattern:
+        source:
+          - aws.codecommit
+        detail-type:
+          - CodeCommit Repository State Change
+        resources:
+          - !Join 
+            - ''
+            - - 'arn:aws:codecommit:'
+              - !Ref 'AWS::Region'
+              - ':'
+              - !Ref 'AWS::AccountId'
+              - ':'
+              - !GetAtt 
+                - CodeRepository
+                - Name
+        detail:
+          event:
+            - referenceCreated
+            - referenceUpdated
+          referenceType:
+            - branch
+          referenceName:
+            - main
+      Targets:
+        - Arn: !Join 
+            - ''
+            - - 'arn:aws:codepipeline:'
+              - !Ref 'AWS::Region'
+              - ':'
+              - !Ref 'AWS::AccountId'
+              - ':'
+              - !Ref Pipeline
+          RoleArn: !GetAtt 
+            - CloudWatchEventRole
+            - Arn
+          Id: codepipeline-Pipeline
+  Pipeline:
+    Type: 'AWS::CodePipeline::Pipeline'
+    Properties:
+      ArtifactStore:
+        Location: !Ref ArtifactBucket
+        Type: S3
+      Name: arh-lab-pipeline
+      RoleArn: !GetAtt 
+        - PipelineRole
+        - Arn
+      Stages:
+        - Name: Source
+          Actions:
+            - Name: Source
+              ActionTypeId:
+                Category: Source
+                Owner: AWS
+                Provider: CodeCommit
+                Version: '1'
+              RunOrder: 1
+              Configuration:
+                BranchName: main
+                OutputArtifactFormat: CODE_ZIP
+                PollForSourceChanges: 'false'
+                RepositoryName: !GetAtt 
+                  - CodeRepository
+                  - Name
+              OutputArtifacts:
+                - Name: SourceArtifact
+              InputArtifacts: []
+              Region: !Ref 'AWS::Region'
+              Namespace: SourceVariables
+        - Name: Deploy
+          Actions:
+            - Name: Deploy
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: CloudFormation
+                Version: '1'
+              RunOrder: 1
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                Capabilities: CAPABILITY_NAMED_IAM
+                OutputFileName: outputs
+                StackName: arh-lab-workload
+                TemplatePath: 'SourceArtifact::workload.yaml'
+                RoleArn: !GetAtt 
+                  - PipelineCFNRole
+                  - Arn
+              OutputArtifacts: []
+              InputArtifacts:
+                - Name: SourceArtifact
+              Region: !Ref 'AWS::Region'
+              Namespace: DeployVariables
+        - !If 
+          - IsResilienceCheck
+          - Name: Resilience-check
+            Actions:
+              - Name: resilience-check
+                ActionTypeId:
+                  Category: Invoke
+                  Owner: AWS
+                  Provider: StepFunctions
+                  Version: '1'
+                RunOrder: 1
+                Configuration:
+                  Input: !Sub >-
+                    {   "AppArn": "${ApplicationARN}",   "StackArn":
+                    "#{DeployVariables.StackId}" }
+                  InputType: Literal
+                  StateMachineArn: !Ref StateMachine
+                OutputArtifacts: []
+                InputArtifacts:
+                  - Name: SourceArtifact
+                Region: !Ref 'AWS::Region'
+          - !Ref 'AWS::NoValue'
+  StateMachineRole:
+    Type: 'AWS::IAM::Role'
+    Condition: IsResilienceCheck
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: states.amazonaws.com
+            Action: 'sts:AssumeRole'
+      Description: Role for resilience check state machine
+      Policies:
+        - PolicyDocument:
+            Statement:
+              - Action: 'resiliencehub:*'
+                Effect: Allow
+                Resource: '*'
+              - Action: 'sns:Publish'
+                Effect: Allow
+                Resource: '*'
+              - Action: 
+                  - 'cloudformation:ListStackResources'
+                  - 'cloudformation:DescribeStacks'
+                  - 's3:*'
+                  - 'ec2:*'
+                  - 'backup:*'
+                  - 'elasticloadbalancing:DescribeLoadBalancers'
+                  - 'elasticloadbalancing:DescribeTargetGroups'
+                  - 'elasticloadbalancing:DescribeTargetHealth'
+                  - 'autoscaling:DescribeAutoScalingGroups'
+                  - 'rds:DescribeDBInstances'
+                  - 'cloudwatch:GetMetricData'
+                  - 'cloudwatch:DescribeAlarms'
+                  - 'ssm:GetParametersByPath'
+                Effect: Allow
+                Resource: '*'
+            Version: 2012-10-17
+          PolicyName: ARH_StepFunctions_Policies
+  StateMachine:
+    Type: 'AWS::StepFunctions::StateMachine'
+    Condition: IsResilienceCheck
+    Properties:
+      RoleArn: !GetAtt 
+        - StateMachineRole
+        - Arn
+      DefinitionString: >-
+        { "Comment":"A description of my state machine",
+        "StartAt":"ImportResourcesToDraftAppVersion", "States":{
+        "ImportResourcesToDraftAppVersion":{ "Type":"Task",
+        "Next":"WaitForImportCompletion", "Parameters":{ "AppArn.$":"$.AppArn",
+        "SourceArns.$":"States.Array($.StackArn)" },
+        "Resource":"arn:aws:states:::aws-sdk:resiliencehub:importResourcesToDraftAppVersion"
+        }, "WaitForImportCompletion":{ "Type":"Wait", "Seconds":5,
+        "Next":"DescribeDraftAppVersionResourcesImportStatus" },
+        "DescribeDraftAppVersionResourcesImportStatus":{ "Type":"Task",
+        "Next":"CheckResourceResoluionStatus", "Parameters":{
+        "AppArn.$":"$.AppArn" },
+        "Resource":"arn:aws:states:::aws-sdk:resiliencehub:describeDraftAppVersionResourcesImportStatus"
+        }, "CheckResourceResoluionStatus":{ "Type":"Choice", "Choices":[ {
+        "Variable":"$.Status", "StringEquals":"Success",
+        "Next":"PublishAppVersion" }, { "Variable":"$.Status",
+        "StringEquals":"Failed", "Next":"SNSPublish" } ],
+        "Default":"WaitForImportCompletion" }, "PublishAppVersion":{
+        "Type":"Task", "Next":"StartAppAssessment", "Parameters":{
+        "AppArn.$":"$.AppArn" },
+        "Resource":"arn:aws:states:::aws-sdk:resiliencehub:publishAppVersion",
+        "ResultPath":null }, "StartAppAssessment":{ "Type":"Task",
+        "Next":"WaitForAssessmentCompletion", "Parameters":{
+        "AppArn.$":"$.AppArn", "AppVersion":"release",
+        "AssessmentName":"Codepipeline-Assessment" },
+        "Resource":"arn:aws:states:::aws-sdk:resiliencehub:startAppAssessment"
+        }, "WaitForAssessmentCompletion":{ "Type":"Wait", "Seconds":5,
+        "Next":"DescribeAppAssessment" }, "DescribeAppAssessment":{
+        "Type":"Task", "Parameters":{
+        "AssessmentArn.$":"$.Assessment.AssessmentArn" },
+        "Resource":"arn:aws:states:::aws-sdk:resiliencehub:describeAppAssessment",
+        "Next":"CheckAppAssessmentStatus" }, "CheckAppAssessmentStatus":{
+        "Type":"Choice", "Choices":[ { "Or":[ {
+        "Variable":"$.Assessment.AssessmentStatus", "StringEquals":"InProgress"
+        }, { "Variable":"$.Assessment.AssessmentStatus",
+        "StringEquals":"Pending" } ], "Next":"WaitForAssessmentCompletion" }, {
+        "And":[ { "Variable":"$.Assessment.AssessmentStatus",
+        "StringEquals":"Success" }, {
+        "Variable":"$.Assessment.ComplianceStatus", "StringEquals":"PolicyMet" }
+        ], "Next":"Success" } ], "Default":"SNSPublish" }, "SNSPublish":{
+        "Type":"Task", "Resource":"arn:aws:states:::sns:publish", "Parameters":{
+        "Message.$":"$", "TopicArn":"${ARH_SNS_ARN}" }, "Next":"Fail" },
+        "Success":{ "Type":"Succeed" }, "Fail":{ "Type":"Fail", "Error":"",
+        "Cause":"" } } }
+      DefinitionSubstitutions:
+        ARH_SNS_ARN: !Ref SNSTopic
+      StateMachineName: ARH-Applicaton-Assessment
+      StateMachineType: STANDARD
+Outputs:
+  CloneURL:
+    Description: URL to use for cloning the code repository
+    Value: !GetAtt 
+      - CodeRepository
+      - CloneUrlHttp
+  SNSTopicARN:
+    Value: !Ref SNSTopic
