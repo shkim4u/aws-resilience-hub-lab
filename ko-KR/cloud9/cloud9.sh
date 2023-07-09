@@ -32,8 +32,8 @@ echo "2.4. Installing Helm..."
 curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 helm version --short
 
-## 3. Update AWS CLI.
-echo "3. Updating AWS CLI..."
+## 3. Upgrade AWS CLI.
+echo "3. Upgrading AWS CLI..."
 aws --version
 
 echo "3.1. Removing the AWS CLI Version 1..."
@@ -47,4 +47,50 @@ unzip awscliv2.zip
 sudo ./aws/install
 hash -d aws
 aws --version
+
+## 4. Upgrade AWS CDK.
+echo "4. Upgrading AWS CDK..."
+npm uninstall -g aws-cdk
+rm -rf $(which cdk)
+npm install -g aws-cdk
+cdk --version
+
+## 5. Installing Misc.
+echo "5. Installing miscellaneous tools..."
+
+echo "5.1. Installing AWS SSM Session Manager..."
+curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/linux_64bit/session-manager-plugin.rpm" -o "session-manager-plugin.rpm"
+sudo yum install -y session-manager-plugin.rpm
+
+echo "5.2. Installing AWS Cloud9 CLI..."
+npm install -g c9
+
+echo "5.3. Installing jq..."
+sudo yum install -y jq
+
+echo "5.4. Installing bash-completion..."
+sudo yum install -y bash-completion
+
+## 6. Addition Cloud9 configurations.
+echo "6. Additional Cloud9 configurations..."
+
+echo "6.1. Configuring AWS_REGION..."
+export AWS_REGION=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.region')
+
+echo "export AWS_REGION=${AWS_REGION}" | tee -a ~/.bash_profile
+
+aws configure set default.region ${AWS_REGION}
+
+# 확인
+aws configure get default.region
+
+echo "6.2. Configuring AWS ACCOUNT_ID..."
+export ACCOUNT_ID=$(curl -s 169.254.169.254/latest/dynamic/instance-identity/document | jq -r '.accountId')
+
+echo "export ACCOUNT_ID=${ACCOUNT_ID}" | tee -a ~/.bash_profile
+
+## 7. Extend disk size.
+echo "7. Extending disk size..."
+curl -fsSL https://raw.githubusercontent.com/shkim4u/kubernetes-misc/main/aws-cloud9/resize.sh | bash
+df -h
 
