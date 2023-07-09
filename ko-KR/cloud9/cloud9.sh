@@ -1,12 +1,14 @@
 #!/bin/bash
 
 # 1. IDE IAM 설정 확인
+echo "1. Checking Cloud9 IAM role..."
 rm -vf ${HOME}/.aws/credentials
 aws sts get-caller-identity --query Arn | grep cloud9-admin
 
 # 2. (Optional for Amazon EKS) EKS 관련 도구
 ## 2.1. Kubectl
 # 설치
+echo "2.1. Installing kubectl..."
 sudo curl -o /usr/local/bin/kubectl  \
    https://s3.us-west-2.amazonaws.com/amazon-eks/1.27.1/2023-04-19/bin/linux/amd64/kubectl
 # 실행 모드 변경
@@ -15,7 +17,34 @@ sudo chmod +x /usr/local/bin/kubectl
 kubectl version --short --client
 
 ## 2.2. eksctl 설치
+echo "2.2. Installing eksct..."
 curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
 sudo mv -v /tmp/eksctl /usr/local/bin
 eksctl version
+
+## 2.3. k9s 설치
+echo "2.3. Installing k9s..."
+curl -sL https://github.com/derailed/k9s/releases/download/v0.27.4/k9s_Linux_amd64.tar.gz | sudo tar xfz - -C /usr/local/bin
+k9s version
+
+## 2.4 Helm 설치
+echo "2.4. Installing Helm..."
+curl -fsSL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+helm version --short
+
+## 3. Update AWS CLI.
+echo "3. Updating AWS CLI..."
+aws --version
+
+echo "3.1. Removing the AWS CLI Version 1..."
+sudo rm /usr/bin/aws
+sudo rm /usr/bin/aws_completer
+sudo rm -rf /usr/local/aws-cli
+
+echo "3.1. Installing AWS CLI Version 2..."
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
+hash -d aws
+aws --version
 
