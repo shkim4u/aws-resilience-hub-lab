@@ -9,9 +9,9 @@ CI/CD(지속적인 통합 및 지속적인 전달)는 최종 사용자에게 새
 2.  **Update**를 클릭합니다. **Prerequisite - Prepare template**에 대한 변경은 필요하지 않으므로 그대로 두고 **Next**를 클릭합니다.
 
 3.  parameters 섹션에서 다음 값을 입력합니다.
-    -   ApplicationARN - Resilience Hub 내에 정의된 애플리케이션의 ARN을 붙여넣습니다. 이 값은 [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications) 의 ARN 열 아래에서 찾을 수 있습니다.<br>
+    -   **ApplicationARN** - Resilience Hub 내에 정의된 애플리케이션의 ARN을 붙여넣습니다. 이 값은 [Resilience Hub 콘솔](https://console.aws.amazon.com/resiliencehub/home#/applications) 의 ARN 열 아래에서 찾을 수 있습니다.<br>
     ![ApplicationARN](../images/lab1/ApplicationARN.png)
-    -   ResilienceCheck - 이 값을 true로 변경합니다.
+    -   **ResilienceCheck** - 이 값을 **true**로 변경합니다.
     ![PipelineUpdate](../images/lab1/PipelineUpdate.png)
 
 4.  **Next**를 클릭하여 검토 페이지로 이동합니다. **"I acknowledge that AWS CloudFormation might create IAM resources with custom names."** 확인란을 선택하고 **Submit**을 클릭합니다.
@@ -36,7 +36,8 @@ cd arh-lab-repo
 
 3.  워크로드에 새 S3 버킷을 추가해 보겠습니다. 다음 명령을 실행하여 워크로드에 대한 업데이트된 템플릿을 만듭니다.
 ```shell
-curl -o workload.yaml 'https://static.us-east-1.prod.workshops.aws/public/5a801e9b-1799-4eb6-90fe-6054bda3c7cc/static/resources/workload-new-bucket.yaml'
+curl -o workload.yaml 'https://raw.githubusercontent.com/shkim4u/aws-resilience-hub-lab/main/ko-KR/cloudformation/workload-new-bucket.yaml'
+
 ```
 
 4.  이러한 변경 사항을 커밋하고 코드 리포지토리에 푸시하여 CodePipeline 배포를 트리거합니다.

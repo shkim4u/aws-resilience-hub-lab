@@ -84,7 +84,7 @@ git push
 4.  이제 새 리소스를 가져왔으므로 업데이트된 아키텍처를 반영하는 새 버전의 응용 프로그램을 게시할 차례입니다. "**Publish new version**" 을 클릭한 다음 **Publish**를 클릭합니다. 페이지 맨 위에 다음 알림이 표시되어야 합니다 - **Successfully updated resources**. 이제 응용 프로그램이 Resilience Hub에서 업데이트되었습니다.<br>
 ![UpdateStackARH](../images/lab1/UpdateStackARH.png)
 
-5.  워크플로 섹션에서 "**Reassess**" 선택하여 정책에 대해 어플리케이션의 복원력 새롭게 평가합니다.<br>
+5.  워크플로 섹션에서 "**Reassess**" 선택하여 정책에 대해 어플리케이션의 복원력을 새롭게 평가합니다.<br>
 ![Reassess](../images/lab1/Reassess.png)
 
 6.  평가 상태가 **Success**로 변경되면 **Compliance status**(규정 준수 상태)가 **Policy met** (정책 충족)으로 표시됩니다.<br>
@@ -94,8 +94,10 @@ git push
 ![summarygreen](../images/lab1/summary_green.png)
 
 8.  마지막으로 복원력 권장 사항을 확인해 보겠습니다. **DatabaseAppComponent-RDSInstance-DBInstance** 구성 요소를 제외한 구성 요소에 대한 추가 권장 사항은 없습니다. 더 작은 RTO 및 RPO를 달성하기 위해 Resilience Hub는 Amazon Aurora 및 Backtracking을 사용함으로써 잠재적인 복원력 향상을 보여줍니다.<br>
-[참고 - Route 53 ARC (Application Recovery Controller)](https://aws.amazon.com/ko/blogs/korea/amazon-route-53-application-recovery-controller/)
-![aurorareco](../images/lab1/aurora_improvement.png)
+
+[//]: # ([참고 - Route 53 ARC &#40;Application Recovery Controller&#41;]&#40;https://aws.amazon.com/ko/blogs/korea/amazon-route-53-application-recovery-controller/&#41;)
+
+[//]: # (![aurorareco]&#40;../images/lab1/aurora_improvement.png&#41;)
 
 그러나 현재 배포한 아키텍처는 여전히 Resilience Hub 내의 **복원력 정책**에서 설정한 기준을 *충족*합니다.
 
