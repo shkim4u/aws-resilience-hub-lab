@@ -42,8 +42,9 @@ sudo rm /usr/bin/aws_completer
 sudo rm -rf /usr/local/aws-cli
 
 echo "3.1. Installing AWS CLI Version 2..."
+rm -rf ./aws | true
 curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-unzip -o awscliv2.zip
+unzip awscliv2.zip
 sudo ./aws/install
 hash -d aws
 aws --version
