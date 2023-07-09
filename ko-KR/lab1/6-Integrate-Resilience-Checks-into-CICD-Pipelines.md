@@ -31,7 +31,7 @@ Resilience Hub를 CI/CD 파이프라인에 통합했으므로 이제 워크로�
 
 2.  다음 명령을 실행하여 응용 프로그램의 작업 디렉터리를 전환합니다.
 ```shell
-cd arh-lab-repo
+cd ~/environment/arh-lab-repo
 ```
 
 3.  워크로드에 새 S3 버킷을 추가해 보겠습니다. 다음 명령을 실행하여 워크로드에 대한 업데이트된 템플릿을 만듭니다.
@@ -71,12 +71,13 @@ Resilience Hub를 CI/CD 파이프라인에 통합함으로써 알림을 받을 �
 
 2.  다음 명령을 실행하여 응용 프로그램의 작업 디렉터리를 전환합니다.
 ```shell
-cd arh-lab-repo
+cd ~/environment/arh-lab-repo
 ```
 
 3.  RTO 및 RPO 요구 사항을 충족할 수 있도록 새 S3 버킷에 버전 관리를 추가해 보겠습니다.
 ```shell
-curl -o workload.yaml 'https://static.us-east-1.prod.workshops.aws/public/5a801e9b-1799-4eb6-90fe-6054bda3c7cc/static/resources/workload-new-bucket-versioning.yaml'
+curl -o workload.yaml 'https://raw.githubusercontent.com/shkim4u/aws-resilience-hub-lab/main/ko-KR/cloudformation/workload-new-bucket-versioning.yaml'
+
 ```
 
 4.  이러한 변경 사항을 커밋하고 코드 리포지토리에 푸시하여 CodePipeline 배포를 트리거합니다.
