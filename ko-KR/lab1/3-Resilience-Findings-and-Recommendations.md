@@ -41,15 +41,15 @@ git config --global credential.helper '!aws codecommit credential-helper $@'
 git config --global credential.UseHttpPath true
 ```
 
-3.  다음 명령에서 [you\@example.com](mailto:you@example.com) 및 **"Your Name"** 부분을 자신의 정보로 바꾼 후 명령을 실행합니다.
+3.  (Optional) 다음 명령에서 [you\@example.com](mailto:you@example.com) 및 **"Your Name"** 부분을 자신의 정보로 바꾼 후 명령을 실행합니다.
 ```
 git config --global user.email you@example.com
 git config --global user.name "Your Name"
 ```
 
-4.  다음 명령을 실행하여 코드 리포지토리를 복제합니다. **CLONE URL**의 값을 **arh-lab-pipeline** CloudFormation 스택의 [Outputs] 섹션에서 얻은 값으로 바꿉니다.
+4.  다음 명령을 실행하여 코드 리포지토리를 복제합니다. **CLONE URL**의 값이 **arh-lab-pipeline** CloudFormation 스택의 [Outputs] 섹션에 표시되는 값인지 확인한 후 동일하지 않으며 CloudFormation Output 값으로 바꿉니다.
 ```
-git clone <REPLACE WITH YOUR CLONE URL>
+git clone https://git-codecommit.ap-northeast-2.amazonaws.com/v1/repos/arh-lab-repo
 ```
 
 5. 다음 명령을 실행하여 코드가 포함된 디렉터리로 이동합니다.
@@ -57,9 +57,9 @@ git clone <REPLACE WITH YOUR CLONE URL>
 cd arh-lab-repo
 ```
  
-7. 다음 명령을 실행하여 CloudFormation 템플릿을 업데이트하고 Resilience Hub에서 권장하는 변경 사항을 구현합니다. 이 업데이트된 템플릿에 포함된 변경 사항은 <u>**RDS에 대한 자동 백업을 활성화하고, S3 버킷에 대해 Versionining 및 PITR(특정 시점으로 복구)을 사용하여 백업 계획을 활성화하고, 새 AZ에 두 번째 NAT 게이트웨이를 추가하는**</u> Resilience Hub의 권장 사항을 기반으로 합니다.
+6. 다음 명령을 실행하여 CloudFormation 템플릿을 업데이트하고 Resilience Hub에서 권장하는 변경 사항을 구현합니다. 이 업데이트된 템플릿에 포함된 변경 사항은 <u>**RDS에 대한 자동 백업을 활성화하고, S3 버킷에 대해 Versionning 및 PITR(특정 시점으로 복구)을 사용하여 백업 계획을 활성화하고, 새 AZ에 두 번째 NAT 게이트웨이를 추가하는**</u> Resilience Hub의 권장 사항을 기반으로 합니다.
 ```
-curl -o workload.yaml 'https://static.us-east-1.prod.workshops.aws/public/5a801e9b-1799-4eb6-90fe-6054bda3c7cc/static/resources/workload-updated.yaml'
+curl -o workload.yaml 'https://raw.githubusercontent.com/shkim4u/aws-resilience-hub-lab/main/ko-KR/cloudformation/workload-updated.yaml'
 ```
 
 7.  다음으로 이러한 변경 사항을 코드 리포지토리에 푸시해야 합니다. 이렇게 하려면 다음 명령을 실행합니다.
