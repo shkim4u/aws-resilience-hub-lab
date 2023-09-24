@@ -6,20 +6,21 @@
 
 1.  평가 보고서 이름을 클릭하여 정책 위반에 대한 자세한 내용을 확장합니다.
 
-2.  **Results** 탭에서 요약을 볼 수 있습니다. 또한 위반의 원인과 각 중단 유형에 대한 예상 RTO/RPO를 확인할 수 있습니다.<br>
-![ResultsSummary](../images/lab1/ResultsSummary.png)
+2.  **결과 (Results)** 탭에서 요약을 볼 수 있습니다. 또한 위반의 원인과 각 중단 유형에 대한 예상 RTO/RPO를 확인할 수 있습니다.<br>
+![ResultsSummary](../images/lab1/ko-KR/Application-Assessment-Result-Summary.png)
 
 3.  서로 다른 각 **중단 유형**을 확장하여 현재 아키텍처 및 해당 구성  요소가 정의한 복원력 정책을 충족할 수 없는 이유에 대한 추가 정보 및 세부 정보를 확인합니다.
 
 4.  예상 **RTO** 및 **예상 RPO** 아래의 값을 클릭합니다. Resilience Hub가 이 평가를 제공한 이유에 대한 정보를 찾을 수 있습니다. 이 워크로드의 복원력 상태를 더 잘 이해하려면 다음을 살펴보세요.<br>
-![BreachInfo](../images/lab1/BreachInfo.png)
+![BreachInfo](../images/lab1/ko-KR/Application-Assessment-Breach-Info.png)
 
 ## [복원력 권장 사항]()
 
 Resilience Hub는 애플리케이션의 복원력을 평가하는 것 외에도 만든 복원력 정책에 정의된 RTO/RPO 요구 사항을 충족하기 위해 아키텍처를 개선할 수 있는 방법에 대한 지침도 제공합니다.
 
-1.  **"Resiliency recommendations"** 탭을 선택하고 **DatabaseAppComponent-RDSInstance-DBInstance** 구성 요소를 선택합니다. Resilience Hub는 복원력 요구 사항을 충족하기 위해 취할 수 있는 권장 사항에 대한 옵션을 보여줍니다. 이러한 변경에는 관련 비용이 있으며 Resilience Hub는 **예상 비용**을 제공합니다. 다음은 데이터베이스 구성 요소에 대한 권장 사항입니다.<br>
-![DBRecommendations](../images/lab1/DBRecommendations.png)
+1.  **"복원력 권장 사항 (Resiliency recommendations)"** 탭을 선택하고 **DatabaseAppComponent-RDSInstance-DBInstance** 구성 요소를 선택합니다. Resilience Hub는 복원력 요구 사항을 충족하기 위해 취할 수 있는 권장 사항에 대한 옵션을 보여줍니다. 이러한 변경에는 관련 비용이 있으며 Resilience Hub는 **예상 비용**을 제공합니다. 다음은 데이터베이스 구성 요소에 대한 권장 사항입니다.<br>
+![DBRecommendations](../images/lab1/ko-KR/Application-Assessment-Database-Recommendations-1.png)
+![DBRecommendations](../images/lab1/ko-KR/Application-Assessment-Database-Recommendations-2.png)
 
 2.  다른 구성 요소에 대한 권장 사항을 살펴봅니다. Resilience Hub에서 제공하는 권장 사항은 [AWS Well-Architected Framework](https://aws.amazon.com/architecture/well-architected/)에 정의된 모범 사례와 일치합니다.
   
@@ -70,30 +71,28 @@ git push
 
 8.  코드 리포지토리에 코드를 푸시하면 파이프라인이 자동으로 트리거되고 이러한 변경 내용이 배포됩니다. 파이프라인 실행 정보 및 CloudFormation 스택에 대한 업데이트는 각각 [CodePipeline 콘솔](https://ap-northeast-2.console.aws.amazon.com/codesuite/codepipeline/pipelines/arh-lab-pipeline/view?region=ap-northeast-2)과 [CloudFormation 콘솔](https://console.aws.amazon.com/cloudformation/home#/stacks?filteringStatus=active&filteringText=&viewNested=true&hideStacks=false) 로 이동하여 볼 수 있습니다.
     1. (참고) **UPDATE_COMPLETE 대기:** 계속하기 전에 CloudFormation 스택 상태가 **UPDATE_COMPLETE**로 변경될 때까지 기다립니다. RDS 변경으로 인해 최대 10분이 걸릴 수 있습니다.<br>
-![PipelineProgress](../images/lab1/PipelineProgress.png)
+![PipelineProgress](../images/lab1/ko-KR/Application-Update-Pipeline-Progress.png)
 
 ## [응용 프로그램 재평가]()
 
 1.  업데이트가 완료되면 애플리케이션의 [Resilience Hub 대시보드](https://console.aws.amazon.com/resiliencehub/home#/application/myWebApp/summary)로 돌아갑니다 (**AWS Resilience Hub > Applications > myWebApp**).
 
-2.  **"Application structure"** 탭을 선택한 다음 **Input sources** 탭을 선택합니다 . CloudFormation 스택을 변경했으므로 생성된 새 리소스를 Resilience Hub의 애플리케이션으로 다시 가져와야 합니다.
+2.  **"애플리케이션 구조 (Application structure)"** 탭 > **"초안 (Draft)"** > **"입력 소스 (Input sources)"** 탭 > **"arh-lab-workload"** > **"작업 (Actions)"** > **"입력 소스 다시 가져오기(최대 5개) (Reimport input sources (up to 5))"** 버튼을 선택합니다. 이를 통해 CloudFormation 스택에 추가된 새 리소스를 Resilience Hub의 애플리케이션으로 다시 가져옵니다.<br>
+![](../images/lab1/ko-KR/Application-Update-Reimport-Resources.png)<br>
+![](../images/lab1/ko-KR/Application-Update-Reimported-Resources-NATGateway.png)<br>
 
-3.  **arh-lab-workload** 입력 소스를 선택하고 **Actions**를 클릭합니다. "**Reimport input sources**"를 클릭하여 CloudFormation
-    스택 업데이트의 일부로 생성되었을 수 있는 새 리소스를 가져옵니다.
+3.  이제 새 리소스를 가져왔으므로 업데이트된 아키텍처를 반영하는 새 버전의 응용 프로그램을 게시하고 평가할 차례입니다. **"게시 및 평가 (Publish and assess)"** 버튼을 클릭한 다음 제안되는 버전을 그대로 받아들인 후 **"게시 및 평가 (Publish and assess)"** 를 클릭합니다.<br>
+![](../images/lab1/ko-KR/Republish-and-Reassess-Application.png)<br>
+![](../images/lab1/ko-KR/Republish-and-Reassess-Application-Submit.png)<br>
 
-4.  이제 새 리소스를 가져왔으므로 업데이트된 아키텍처를 반영하는 새 버전의 응용 프로그램을 게시할 차례입니다. "**Publish new version**" 을 클릭한 다음 **Publish**를 클릭합니다. 페이지 맨 위에 다음 알림이 표시되어야 합니다 - **Successfully updated resources**. 이제 응용 프로그램이 Resilience Hub에서 업데이트되었습니다.<br>
-![UpdateStackARH](../images/lab1/UpdateStackARH.png)
-
-5.  워크플로 섹션에서 "**Reassess**" 선택하여 정책에 대해 어플리케이션의 복원력을 새롭게 평가합니다.<br>
-![Reassess](../images/lab1/Reassess.png)
-
-6.  평가 상태가 **Success**로 변경되면 **Compliance status**(규정 준수 상태)가 **Policy met** (정책 충족)으로 표시됩니다.<br>
-![policymet](../images/lab1/policy_met.png)
+6.  평가 상태가 **성공 (Success)** 으로 변경되면 **Compliance status**(규정 준수 상태)가 **Policy met** (정책 충족)으로 표시됩니다.<br>
+![policymet](../images/lab1/ko-KR/Application-Reassessment-Result-Policy-Met.png)
 
 7.  보고서를 클릭하면 추가 세부 정보를 볼 수 있습니다. 복원력 권장 사항 요약에는 다양한 **중단 유형에** 대한 **대상** 및 **예상** RPO 및 RTO 평가가 표시됩니다.<br>
-![summarygreen](../images/lab1/summary_green.png)
+![summarygreen](../images/lab1/ko-KR/Application-Reassessment-Status-Green.png)
 
 8.  마지막으로 복원력 권장 사항을 확인해 보겠습니다. **DatabaseAppComponent-RDSInstance-DBInstance** 구성 요소를 제외한 구성 요소에 대한 추가 권장 사항은 없습니다. 더 작은 RTO 및 RPO를 달성하기 위해 Resilience Hub는 Amazon Aurora 및 Backtracking을 사용함으로써 잠재적인 복원력 향상을 보여줍니다.<br>
+![](../images/lab1/ko-KR/Database-Component-Additional-Recommendations.png)
 
 [//]: # ([참고 - Route 53 ARC &#40;Application Recovery Controller&#41;]&#40;https://aws.amazon.com/ko/blogs/korea/amazon-route-53-application-recovery-controller/&#41;)
 

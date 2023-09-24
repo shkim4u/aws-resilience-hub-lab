@@ -29,39 +29,41 @@ AWS CloudFormation을 사용하여 이 실습에 필요한 리소스를 프로�
     * [[pipeline.yaml]](https://raw.githubusercontent.com/shkim4u/aws-resilience-hub-lab/main/ko-KR/cloudformation/pipeline.yaml)
 
 
-2.  [CloudFormation 콘솔](https://console.aws.amazon.com/cloudformation/home)로 이동하여 **Create Stack > With new resources (standard)** 를 클릭합니다.
-![CFNCreateStackButton](../images/lab1/CFNCreateStackButton.png)
+2.  [CloudFormation 콘솔](https://console.aws.amazon.com/cloudformation/home)로 이동하여 **"스택 생성 (Create Stack) > "새 리소스 사용(표준) (With new resources (standard))"** 를 클릭합니다.
+![CFNCreateStackButton](../images/lab1/ko-KR/CloudFormation-Create-Stack.png)
 
-3.  **"Prepare template"** 항목에서 **"Template is ready"** 를 선택하고, **"Template source"** 에서는 **"Upload a template file"** 을 선택합니다. 위 1에서 다운로드한 CloudFormation 템플릿을 선택하고 **Next**를 클릭합니다.
+3.  **"템플릿 준비 (Prepare template)"** 항목에서 **"준비된 템플릿 (Template is ready)"** 를 선택하고, **"템플릿 소스 (Template source)"** 에서는 **"템플릿 파일 업로드 (Upload a template file)"** 을 선택합니다. 위 1에서 다운로드한 CloudFormation 템플릿을 선택하고 **다음 (Next)**을 클릭합니다.
 
-4.  **Stack name**에 다음을 입력합니다.
+4.  **스택 이름 (Stack name)**에 다음을 입력합니다.
 ```
 arh-lab-pipeline
 ```
 
 5.  **NotificationEmail** 파라미터에 경보 알림을 수신할 이메일 주소를 입력합니다 (주의: 이 이메일 주소는 메시지 확인이 가능한 유효한 이메일 주소이어야 합니다). 다른 매개 변수에 대해서는 변경할 필요가 없습니다.
-![pipelineparam](../images/lab1/PipelineParameters.png)
+![pipelineparam](../images/lab1/ko-KR/PipelineParameters.png)
 
-6.  **Review** 페이지로 이동할 때까지 **Next**를 클릭합니다. **"I acknowledge that AWS CloudFormation might create IAM resources with custom names."** 및 다른 확인란을 선택하고 **Submit**을 클릭합니다.
+6.  **검토 (Review)** 페이지로 이동할 때까지 **다음 (Next)**을 클릭합니다. **"AWS CloudFormation에서 사용자 지정 이름으로 IAM 리소스를 생성할 수 있음을 승인합니다. (I acknowledge that AWS CloudFormation might create IAM resources with custom names.)"** 및 다른 확인란을 선택하고 **전송 (Submit)**을 클릭합니다.
 
 7.  스택 생성이 **CREATE_COMPLETE**에 도달할 때까지 기다립니다.
     -   **이메일 구독 확인**: 스택 생성이 완료되면 이메일(파라미터 값에 입력한 이메일)을 확인하고 SNS 주제 구독을 확인합니다.
+    - ![](../images/lab1/ko-KR/ConfirmARHEmailSubscription.png)
 
 8.  **Outputs(출력)** 탭으로 이동하여 출력의 키-값을 기록해 둡니다. 나중에 워크샵에서 사용할 것입니다.
-![PipelineOutputs](../images/lab1/PipelineOutputs.png)
+![PipelineOutputs](../images/lab1/ko-KR/CloudFormation-Pipeline-Outputs.png)
 
-워크로드에 대해 생성된 파이프라인은 워크로드 자체에 대한 리소스가 포함된 새 CloudFormation 스택을 배포합니다. VPC, 서브넷 및 게이트웨이와 같은네트워킹 리소스 외에도 ALB, EC2, RDS, S3 등과 같은 리소스 등이 생성됩니다.
+워크로드에 대해 생성된 파이프라인(인프라 파이프라인)은 워크로드 자체에 대한 리소스가 포함된 새 CloudFormation 스택을 배포합니다. VPC, 서브넷 및 게이트웨이와 같은네트워킹 리소스 외에도 ALB, EC2, RDS, S3 등과 같은 리소스 등이 생성됩니다.
 
 1.  [CloudFormation 콘솔](https://console.aws.amazon.com/cloudformation/home)에서 이름이 **arh-lab-workload** 이고 상태가 **CREATE_IN_PROGRESS**인 새 스택이 표시되어야 합니다
 
 2.  스택이 생성되면 **\[Outputs**\] 탭으로 이동하여 출력의 키-값을 기록해 둡니다. 나중에 워크샵에서 사용할 것입니다.
-![WorkloadOutputs](../images/lab1/WorkloadOutputs.png)
+![WorkloadOutputs](../images/lab1/ko-KR/CloudFormation-Workload-Outputs.png)
 
 ### [어플리케이션 둘러보기]()
 
 1.  **arh-lab-workload** 스택의 outputs 탭으로 이동합니다.
 2.  브라우저의 새 탭에서 **WebsiteURL** 링크를 엽니다.
 3.  양식에 샘플 데이터를 입력하여 데이터베이스에서 데이터를 쓰고 읽을 수 있는지 테스트합니다.
+![](../images/lab1/ko-KR/Application-Test.png)
 
 <hr>
 
